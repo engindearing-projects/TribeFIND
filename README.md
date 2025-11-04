@@ -1,12 +1,12 @@
-# 🌟 TribeFind - AI-Powered Social Discovery Platform
+# 🌟 TribeFind - Location-Based Social Discovery Platform
 
-> **Built with Incremental AI Development** - A React Native app showcasing production-ready AI features and real-time social discovery
+> **Snapchat meets Real-World Connections** - A React Native app for discovering and connecting with nearby tribes through shared activities
 
-[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](https://github.com/jfuginay/snapchat-clone)
+[![Version](https://img.shields.io/badge/version-1.4.2-blue.svg)](https://github.com/jfuginay/snapchat-clone)
 [![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android-lightgrey.svg)](https://reactnative.dev/)
 [![Framework](https://img.shields.io/badge/framework-React%20Native%20%7C%20Expo-000.svg)](https://expo.dev/)
 
-**TribeFind** is a next-generation social discovery platform that helps users find like-minded people nearby through AI-powered recommendations, shared interests, and real-time location features.
+**TribeFind** is a location-based social discovery platform that combines Snapchat-style media sharing with geo-tagged activity posts. Find and connect with nearby users doing similar activities, build your tribe, and share your adventures through photos and stories.
 
 ---
 
@@ -37,29 +37,6 @@ expo start
 ---
 
 ## 🚀 **Latest Features & Updates**
-
-### **🧠 NEW: Local Knowledge RAG System** ✨
-Just implemented a complete **Retrieval-Augmented Generation (RAG)** system for hyper-local recommendations:
-
-#### **What It Does**:
-- **AI Local Expert**: Ask natural language questions about your area
-- **Hidden Gems Discovery**: Find local secrets beyond standard maps
-- **Real-time Data**: Live events, seasonal activities, insider tips
-- **Multi-API Integration**: Google Places, OpenStreetMap, Foursquare, Eventbrite
-
-#### **Try These Queries**:
-- *"What activities are popular nearby?"*
-- *"Find coffee shops with good wifi in this area"*
-- *"What should I do tonight?"*
-- *"Recommend places based on my location"*
-
-#### **Technical Implementation**:
-- **Vector Database**: Supabase with pgvector for semantic search
-- **Multi-Source Data**: 4+ APIs providing comprehensive local data
-- **LLM Integration**: Google Gemini for natural language responses
-- **Geographic Queries**: PostGIS for location-based filtering
-
-**Full Implementation**: [features/rag/IMPLEMENTATION_PLAN.md](features/rag/IMPLEMENTATION_PLAN.md)
 
 ### **🎥 Professional Video Capture** ✅
 - **Multiple Durations**: 3s, 5s, 10s, 30s clips
@@ -94,23 +71,26 @@ Just implemented a complete **Retrieval-Augmented Generation (RAG)** system for 
 
 ## 🎯 **Key Demo Features**
 
-### **1. AI-Powered Discovery** 🧠
-- Ask the AI about local recommendations
-- Get personalized suggestions based on location
-- Discover events and activities in real-time
+### **1. Tribe Discovery** 🗺️
+- Find people with shared interests nearby using geo-tagged posts
+- See what activities users are doing in your area
+- Filter by activity type to find the perfect tribe match
+- Send connection requests to join or invite others to your tribe
 
-### **2. Social Connection** 👥
-- Find people with shared interests nearby
-- Real-time location sharing with privacy controls
-- Instant messaging and friend management
-
-### **3. Professional Media** 📱
-- High-quality photo and video capture
-- Multiple recording durations
+### **2. Snapchat-Style Media** 📸
+- Professional camera with real-time filters
+- Photo and video capture with multiple durations
+- Stories and timeline feed
 - Cloud storage with instant sync
 
+### **3. Real-Time Social** 👥
+- Live location sharing with privacy controls
+- Interactive map showing nearby tribe members
+- Instant messaging and friend management
+- Real-time status updates
+
 ### **4. Universal Access** 🔑
-- Multiple sign-in options (Twitter, Google, Email)
+- Multiple sign-in options (Twitter, Google, Apple, Email)
 - Cross-platform compatibility (iOS/Android)
 - Demo accounts for immediate testing
 
@@ -159,51 +139,52 @@ Get a feel for TribeFind's intuitive interface and powerful features:
 - **Redux Toolkit** for state management
 - **React Navigation** for routing
 
-### **AI & Data**
-- **RAG Pipeline**: Vector embeddings with semantic search
-- **LLM Integration**: Google Gemini for natural language
-- **Multi-API Data**: Google Places, OpenStreetMap, Foursquare
-- **Vector Database**: Supabase pgvector for similarity search
-
 ### **Backend Services**
 - **Supabase**: Database, authentication, real-time, storage
-- **PostGIS**: Geographic queries and location data
-- **Edge Functions**: Serverless API endpoints
+- **PostGIS**: Geographic queries and location-based discovery
 - **Row Level Security**: Data protection and privacy
+- **Real-time Subscriptions**: Live updates for messaging and location
 
 ### **Media & Camera**
 - **react-native-vision-camera**: Professional video recording
 - **expo-camera**: Photo capture with filters
 - **expo-av**: Video playback and media management
+- **Supabase Storage**: Cloud media storage and delivery
+
+### **Location & Maps**
+- **react-native-maps**: Interactive map visualization
+- **expo-location**: GPS and location tracking
+- **PostGIS**: Efficient geo-spatial queries
 
 ---
 
 ## 🎓 **Educational Value**
 
-This project demonstrates **production-ready AI development** patterns:
+This project demonstrates **production-ready mobile development** patterns:
 
-### **✅ RAG Implementation**
-- Complete vector database setup
-- Multi-source data ingestion
-- Semantic search with geographic filtering
-- LLM integration with context augmentation
+### **✅ Location-Based Discovery**
+- PostGIS for efficient geo-spatial queries
+- Real-time location tracking with privacy controls
+- Activity-based matching algorithm
+- Interactive map visualization with react-native-maps
 
-### **✅ Real-time Systems**
-- WebSocket connections for messaging
-- Live location updates
+### **✅ Real-time Social Features**
+- WebSocket connections for instant messaging
+- Live location updates with Supabase subscriptions
 - Real-time friend status tracking
+- Efficient state management with Redux
 
 ### **✅ Mobile Development**
-- Cross-platform React Native
+- Cross-platform React Native with Expo
 - Native camera and media APIs
-- Cloud storage integration
-- Push notifications ready
+- Cloud storage integration with Supabase
+- Multiple OAuth providers (Twitter, Google, Apple)
 
 ### **✅ Production Architecture**
-- Scalable database design
-- Secure authentication flows
-- Error handling and monitoring
-- Comprehensive documentation
+- Scalable PostgreSQL database with PostGIS
+- Secure authentication flows with Row Level Security
+- Optimized battery-efficient location tracking
+- Comprehensive type safety with TypeScript
 
 ---
 
@@ -213,9 +194,9 @@ This project demonstrates **production-ready AI development** patterns:
 - [INSTRUCTOR_QUICK_START.md](INSTRUCTOR_QUICK_START.md) - 5-minute setup
 - [TESTFLIGHT_DISTRIBUTION_GUIDE.md](TESTFLIGHT_DISTRIBUTION_GUIDE.md) - iPhone testing
 - [TESTING_GUIDE.md](TESTING_GUIDE.md) - Comprehensive testing
+- [STREAMLINE_PLAN.md](STREAMLINE_PLAN.md) - Feature roadmap and launch plan
 
 ### **Features & Implementation**
-- [features/rag/IMPLEMENTATION_PLAN.md](features/rag/IMPLEMENTATION_PLAN.md) - RAG architecture
 - [VIDEO_CAPTURE_IMPLEMENTATION_GUIDE.md](VIDEO_CAPTURE_IMPLEMENTATION_GUIDE.md) - Video features
 - [CAMERA_SETUP_GUIDE.md](CAMERA_SETUP_GUIDE.md) - Camera implementation
 
@@ -234,6 +215,6 @@ This project demonstrates **production-ready AI development** patterns:
 
 ---
 
-**Built with ❤️ using incremental AI development**
+**Built with ❤️ for real-world connections**
 
-*TribeFind v1.4.0 - AI-powered social discovery with local knowledge* 🌟 
+*TribeFind v1.4.2 - Location-based social discovery for building your tribe* 🌟 
