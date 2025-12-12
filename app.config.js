@@ -1,0 +1,151 @@
+export default {
+  expo: {
+    name: "TribeFind",
+    slug: "snapchat-clone",
+    version: "1.4.2",
+    platforms: ["ios", "android", "web"],
+    orientation: "portrait",
+    icon: "./assets/icon.png",
+    userInterfaceStyle: "light",
+    newArchEnabled: true,
+    splash: {
+      image: "./assets/splash-icon.png",
+      resizeMode: "contain",
+      backgroundColor: "#6366f1"
+    },
+    assetBundlePatterns: ["**/*"],
+    scheme: "tribefind",
+    ios: {
+      supportsTablet: false,
+      buildNumber: "23",
+      infoPlist: {
+        NSCameraUsageDescription: "This app uses the camera to capture and share photos.",
+        NSMicrophoneUsageDescription: "This app uses the microphone for video recording.",
+        NSPhotoLibraryUsageDescription: "This app saves photos to your photo library.",
+        NSPhotoLibraryAddUsageDescription: "This app saves photos to your photo library.",
+        NSLocationWhenInUseUsageDescription: "This app uses location to show nearby tribe members with shared interests.",
+        NSLocationAlwaysAndWhenInUseUsageDescription: "This app uses location to show nearby tribe members with shared interests.",
+        ITSAppUsesNonExemptEncryption: false,
+        NSAppTransportSecurity: {
+          NSAllowsArbitraryLoads: true,
+          NSAllowsArbitraryLoadsInWebContent: true,
+          NSAllowsLocalNetworking: true,
+          NSExceptionDomains: {
+            "supabase.co": {
+              NSExceptionAllowsInsecureHTTPLoads: true,
+              NSExceptionMinimumTLSVersion: "TLSv1.0",
+              NSExceptionRequiresForwardSecrecy: false,
+              NSIncludesSubdomains: true
+            },
+            "supabase.com": {
+              NSExceptionAllowsInsecureHTTPLoads: true,
+              NSExceptionMinimumTLSVersion: "TLSv1.0",
+              NSExceptionRequiresForwardSecrecy: false,
+              NSIncludesSubdomains: true
+            },
+            "googleapis.com": {
+              NSExceptionAllowsInsecureHTTPLoads: true,
+              NSExceptionMinimumTLSVersion: "TLSv1.0",
+              NSExceptionRequiresForwardSecrecy: false,
+              NSIncludesSubdomains: true
+            },
+            "google.com": {
+              NSExceptionAllowsInsecureHTTPLoads: true,
+              NSExceptionMinimumTLSVersion: "TLSv1.0",
+              NSExceptionRequiresForwardSecrecy: false,
+              NSIncludesSubdomains: true
+            },
+            "twitter.com": {
+              NSExceptionAllowsInsecureHTTPLoads: true,
+              NSExceptionMinimumTLSVersion: "TLSv1.0",
+              NSExceptionRequiresForwardSecrecy: false,
+              NSIncludesSubdomains: true
+            },
+            localhost: {
+              NSExceptionAllowsInsecureHTTPLoads: true,
+              NSExceptionMinimumTLSVersion: "TLSv1.0",
+              NSExceptionRequiresForwardSecrecy: false
+            }
+          }
+        }
+      },
+      bundleIdentifier: "com.jfuginay.tribefind",
+      config: {
+        googleMapsApiKey: process.env.GOOGLE_PLACES_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY"
+      },
+      googleServicesFile: "./GoogleService-Info.plist"
+    },
+    android: {
+      adaptiveIcon: {
+        foregroundImage: "./assets/adaptive-icon.png",
+        backgroundColor: "#6366f1"
+      },
+      edgeToEdgeEnabled: true,
+      package: "com.jfuginay.tribefind",
+      permissions: [
+        "CAMERA",
+        "RECORD_AUDIO",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_MEDIA_IMAGES",
+        "READ_MEDIA_VIDEO",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION"
+      ],
+      config: {
+        googleMaps: {
+          apiKey: process.env.GOOGLE_PLACES_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY"
+        }
+      }
+    },
+    web: {
+      favicon: "./assets/favicon.png",
+      bundler: "metro"
+    },
+    plugins: [
+      [
+        "expo-camera",
+        {
+          cameraPermission: "Allow $(PRODUCT_NAME) to access your camera to capture and share photos.",
+          microphonePermission: "Allow $(PRODUCT_NAME) to access your microphone for video recording.",
+          recordAudioAndroid: true
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          photosPermission: "Allow $(PRODUCT_NAME) to access your photos to save captured images.",
+          savePhotosPermission: "Allow $(PRODUCT_NAME) to save photos to your photo library.",
+          isAccessMediaLocationEnabled: true
+        }
+      ],
+      [
+        "react-native-vision-camera",
+        {
+          cameraPermissionText: "$(PRODUCT_NAME) needs access to your Camera to record videos and capture photos.",
+          enableMicrophonePermission: true,
+          microphonePermissionText: "$(PRODUCT_NAME) needs access to your Microphone to record audio for videos."
+        }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          iosUrlScheme: "com.googleusercontent.apps.928204958033-cupnqdn1nglhhfmj5pe5vl0oql4heg9s"
+        }
+      ],
+      // "expo-apple-authentication", // Temporarily disabled - provisioning profile needs Sign in with Apple capability
+      "expo-web-browser"
+    ],
+    extra: {
+      eas: {
+        projectId: "ba3ffb98-85fc-4e78-9521-90e52f842751"
+      }
+    },
+    owner: "jfuginay"
+  }
+};
