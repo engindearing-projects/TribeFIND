@@ -11,7 +11,7 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
-  testPathIgnorePatterns: ['/node_modules/', '/android/', '/ios/'],
+  testPathIgnorePatterns: ['/node_modules/', '/android/', '/ios/', '<rootDir>/__tests__/helpers/renderWithProviders.tsx'],
   collectCoverageFrom: [
     '**/*.{ts,tsx}',
     '!**/node_modules/**',
