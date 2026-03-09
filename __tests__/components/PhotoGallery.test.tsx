@@ -13,10 +13,10 @@ jest.mock('@expo/vector-icons', () => {
 });
 
 describe('PhotoGallery', () => {
-  it('shows loading state initially', () => {
-    const { getByText } = renderWithProviders(<PhotoGallery />);
+  it('shows loading state initially', async () => {
+    const { getByText, findByText } = renderWithProviders(<PhotoGallery />);
 
-    expect(getByText('Loading photos...')).toBeTruthy();
+    expect(await findByText('Loading photos...')).toBeTruthy();
   });
 
   it('renders header with photo count after loading', async () => {

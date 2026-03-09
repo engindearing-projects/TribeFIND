@@ -27,7 +27,7 @@ jest.mock('@react-navigation/native', () => {
       reset: jest.fn(),
       setOptions: jest.fn(),
     }),
-    useRoute: () => ({
+    useRoute: jest.fn(() => ({
       params: {
         chatRoomId: 'test-chat-room-id',
         otherUser: {
@@ -78,9 +78,11 @@ describe('ChatScreen', () => {
     expect(input.props.value).toBe('Hello!');
   });
 
-  it('shows offline status for offline user', () => {
-    // Re-mock route for this test with offline user
-    const useRoute = require('@react-navigation/native').useRoute;
+  it('shows offline status for offline user', async () => {
+    // Import the mocked useRoute from the navigation mock
+    const { useRoute } = require('@react-navigation/native');
+
+    // Set the return value for this specific test
     useRoute.mockReturnValueOnce({
       params: {
         chatRoomId: 'test-chat-room-id',
@@ -94,8 +96,12 @@ describe('ChatScreen', () => {
       },
     });
 
-    // This relies on the mock being called, but since useRoute is a function
-    // it returns the value set in the top-level mock. The test above verifies
-    // the online case works.
+    const { getByText, queryByText } = renderWithProviders(<ChatScreen />);
+
+    await waitFor(() => {
+      expect(getByText('Offline User')).toBeTruthy();
+      expect(queryByText('Online')).toBeNull(); // Ensure 'Online' text is not present
+      expect(getByText('Offline')).toBeTruthy();
+    });
   });
 });

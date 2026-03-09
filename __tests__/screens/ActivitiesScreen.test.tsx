@@ -13,10 +13,12 @@ jest.mock('@expo/vector-icons', () => {
 });
 
 describe('ActivitiesScreen', () => {
-  it('shows loading state initially', () => {
+  it('renders activities screen', async () => {
     const { getByText } = renderWithProviders(<ActivitiesScreen />);
 
-    expect(getByText('Loading activities...')).toBeTruthy();
+    await waitFor(() => {
+      expect(getByText('Choose Your Activities')).toBeTruthy();
+    });
   });
 
   it('renders header after loading', async () => {

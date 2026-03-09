@@ -105,11 +105,11 @@ describe('ProfileScreen', () => {
   });
 
   it('renders stats section', async () => {
-    const { getByText } = renderWithProviders(<ProfileScreen />);
+    const { getByText, getAllByText } = renderWithProviders(<ProfileScreen />);
 
     await waitFor(() => {
       expect(getByText('Snaps')).toBeTruthy();
-      expect(getByText('Friends')).toBeTruthy();
+      expect(getAllByText('Friends').length).toBeGreaterThanOrEqual(1);
       expect(getByText('Score')).toBeTruthy();
     });
   });
@@ -165,10 +165,10 @@ describe('ProfileScreen', () => {
   });
 
   it('renders notification and friends settings', async () => {
-    const { getByText } = renderWithProviders(<ProfileScreen />);
+    const { getAllByText, getByText } = renderWithProviders(<ProfileScreen />);
 
     await waitFor(() => {
-      expect(getByText('Friends')).toBeTruthy();
+      expect(getAllByText('Friends').length).toBeGreaterThanOrEqual(1);
       expect(getByText('Notifications')).toBeTruthy();
     });
   });

@@ -42,21 +42,6 @@ export default function ProfileScreen() {
   })
   const [updatedUser, setUpdatedUser] = useState(user)
 
-  useEffect(() => {
-    if (user) {
-      loadRealStats()
-    }
-  }, [user])
-
-  // Refresh stats when screen comes into focus
-  useFocusEffect(
-    React.useCallback(() => {
-      if (user) {
-        loadRealStats()
-      }
-    }, [user])
-  )
-
   const loadRealStats = async () => {
     if (!user) return
 
@@ -113,6 +98,21 @@ export default function ProfileScreen() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (user) {
+      loadRealStats()
+    }
+  }, [user])
+
+  // Refresh stats when screen comes into focus
+  useFocusEffect(
+    React.useCallback(() => {
+      if (user) {
+        loadRealStats()
+      }
+    }, [user])
+  )
 
   const onRefresh = async () => {
     setRefreshing(true)

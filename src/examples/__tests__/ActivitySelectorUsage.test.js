@@ -1,10 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { renderWithProviders } from '../../../__tests__/test-utils';
 import ActivitySelectorUsage from '../ActivitySelectorUsage';
 
 describe('ActivitySelectorUsage', () => {
   it('renders correctly', () => {
-    const { getByTestId } = render(<ActivitySelectorUsage />);
+    const { getByTestId } = renderWithProviders(<ActivitySelectorUsage />);
     // Similar to MapScreenUsage, a placeholder assertion for now.
     expect(true).toBe(true); // Placeholder for actual assertion
   });

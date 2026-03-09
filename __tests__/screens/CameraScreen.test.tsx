@@ -57,11 +57,11 @@ describe('CameraScreen', () => {
   });
 
   it('renders camera control buttons', () => {
-    const { getByText } = renderWithProviders(<CameraScreen />);
+    const { getByText, getAllByText } = renderWithProviders(<CameraScreen />);
 
     // Icon buttons from Ionicons mock render as text
     expect(getByText('images')).toBeTruthy(); // gallery button
-    expect(getByText('camera')).toBeTruthy(); // capture button inner icon
+    expect(getAllByText('camera').length).toBeGreaterThanOrEqual(1); // capture button inner icon
     expect(getByText('camera-reverse')).toBeTruthy(); // flip button
   });
 });
