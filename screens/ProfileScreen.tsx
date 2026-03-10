@@ -28,6 +28,10 @@ type NavigationProps = NavigationProp<RootStackParamList>
 
 export default function ProfileScreen() {
   const { user } = useAppSelector((state) => state.auth)
+
+  if (!user) {
+    return null
+  }
   const { signOut, linkTwitterAccount, updateProfile } = useAuth()
   const navigation = useNavigation<NavigationProps>()
   const [refreshing, setRefreshing] = useState(false)

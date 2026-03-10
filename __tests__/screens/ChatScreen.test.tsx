@@ -38,7 +38,7 @@ jest.mock('@react-navigation/native', () => {
           is_online: true,
         },
       },
-    }),
+    })),
     useIsFocused: jest.fn().mockReturnValue(true),
   };
 });
