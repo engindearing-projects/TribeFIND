@@ -8,6 +8,9 @@ import privacySlice from '../../store/privacySlice';
 import contactsSlice from '../../store/contactsSlice';
 import messagingSlice from '../../store/messagingSlice';
 import tutorialSlice from '../../store/tutorialSlice';
+import { AuthProvider } from '../../services/AuthService'; // Import AuthProvider
+
+jest.mock('../../lib/supabase'); // Mock supabase for tests
 
 export const mockUser = {
   id: 'test-user-id',
@@ -125,7 +128,13 @@ export function renderWithProviders(
   const store = createMockStore(storeOverrides);
 
   function Wrapper({ children }: { children: React.ReactNode }) {
-    return <Provider store={store}>{children}</Provider>;
+    return (
+      <Provider store={store}>
+        <AuthProvider> {/* Add AuthProvider here */}
+          {children}
+        </AuthProvider>
+      </Provider>
+    );
   }
 
   return {
