@@ -16,6 +16,40 @@ jest.mock('../../src/services/locationService', () => ({
   },
 }));
 
+// Mock supabase with proper chainable methods for MapScreen queries
+jest.mock('../../lib/supabase', () => {
+  const chainable = () => {
+    const obj: any = {
+      select: jest.fn(() => obj),
+      insert: jest.fn(() => obj),
+      update: jest.fn(() => obj),
+      delete: jest.fn(() => obj),
+      eq: jest.fn(() => Promise.resolve({ data: [], error: null })),
+      neq: jest.fn(() => Promise.resolve({ data: [], error: null })),
+      single: jest.fn(() => Promise.resolve({ data: null, error: null })),
+      limit: jest.fn(() => Promise.resolve({ data: [], error: null })),
+      order: jest.fn(() => obj),
+      gte: jest.fn(() => obj),
+      lte: jest.fn(() => obj),
+    };
+    return obj;
+  };
+  return {
+    supabase: {
+      from: jest.fn(() => chainable()),
+      channel: jest.fn(() => ({
+        on: jest.fn().mockReturnThis(),
+        subscribe: jest.fn().mockReturnValue({ unsubscribe: jest.fn() }),
+      })),
+      removeChannel: jest.fn(),
+      auth: {
+        getSession: jest.fn().mockResolvedValue({ data: { session: null }, error: null }),
+        onAuthStateChange: jest.fn().mockReturnValue({ data: { subscription: { unsubscribe: jest.fn() } } }),
+      },
+    },
+  };
+});
+
 // Mock @expo/vector-icons
 jest.mock('@expo/vector-icons', () => {
   const React = require('react');

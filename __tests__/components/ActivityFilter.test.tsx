@@ -3,6 +3,30 @@ import { fireEvent, waitFor } from '@testing-library/react-native';
 import ActivityFilter from '../../components/ActivityFilter';
 import { renderWithProviders } from '../helpers/renderWithProviders';
 
+// Mock supabase with proper chainable methods for ActivityFilter queries
+jest.mock('../../lib/supabase', () => {
+  const chainable = () => {
+    const obj: any = {
+      select: jest.fn(() => obj),
+      eq: jest.fn(() => Promise.resolve({ data: [], error: null })),
+      neq: jest.fn(() => Promise.resolve({ data: [], error: null })),
+      limit: jest.fn(() => Promise.resolve({ data: [], error: null })),
+      order: jest.fn(() => obj),
+      single: jest.fn(() => Promise.resolve({ data: null, error: null })),
+    };
+    return obj;
+  };
+  return {
+    supabase: {
+      from: jest.fn(() => chainable()),
+      auth: {
+        getSession: jest.fn().mockResolvedValue({ data: { session: null }, error: null }),
+        onAuthStateChange: jest.fn().mockReturnValue({ data: { subscription: { unsubscribe: jest.fn() } } }),
+      },
+    },
+  };
+});
+
 describe('ActivityFilter', () => {
   const mockOnFilterChange = jest.fn();
 

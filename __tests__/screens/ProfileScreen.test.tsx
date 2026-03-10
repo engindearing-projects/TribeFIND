@@ -161,8 +161,9 @@ describe('ProfileScreen', () => {
       auth: { user: null, session: null, loading: false, isAuthenticated: false },
     });
 
-    // Should render an empty string when the component renders null
-    expect(toJSON()).toBe("");
+    // Component returns null when user is null; toJSON may return null or whitespace
+    const result = toJSON();
+    expect(result === null || (typeof result === 'string' && result.trim() === '')).toBe(true);
   });
 
   it('renders notification and friends settings', async () => {
