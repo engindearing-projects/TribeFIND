@@ -16,14 +16,25 @@ jest.mock('@expo/vector-icons', () => {
 // Mock supabase
 jest.mock('../../lib/supabase', () => ({
   supabase: {
+    auth: {
+      getSession: jest.fn().mockResolvedValue({ data: { session: null }, error: null }),
+      onAuthStateChange: jest.fn().mockReturnValue({ data: { subscription: { unsubscribe: jest.fn() } } }),
+    },
     from: jest.fn(() => ({
       select: jest.fn(() => ({
         eq: jest.fn(() => ({
-          order: jest.fn(() => Promise.resolve({ data: [], error: null })), // Default to empty data
+          order: jest.fn(() => Promise.resolve({ data: [], error: null })),
         })),
-        order: jest.fn(() => Promise.resolve({ data: [], error: null })), // Also keep this for cases without eq
+        order: jest.fn(() => Promise.resolve({ data: [], error: null })),
       })),
     })),
+    storage: {
+      from: jest.fn(() => ({
+        list: jest.fn().mockResolvedValue({ data: [], error: null }),
+        createSignedUrl: jest.fn().mockResolvedValue({ data: { signedUrl: 'mock-signed-url' }, error: null }),
+        remove: jest.fn().mockResolvedValue({ data: {}, error: null }),
+      })),
+    },
   },
 }));
 

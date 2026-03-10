@@ -6,6 +6,10 @@ import { renderWithProviders } from '../helpers/renderWithProviders';
 // Mock Supabase
 jest.mock('../../lib/supabase', () => ({
   supabase: {
+    auth: {
+      getSession: jest.fn().mockResolvedValue({ data: { session: null }, error: null }),
+      onAuthStateChange: jest.fn().mockReturnValue({ data: { subscription: { unsubscribe: jest.fn() } } }),
+    },
     from: jest.fn(() => ({
       select: jest.fn(() => ({
         eq: jest.fn(() => ({

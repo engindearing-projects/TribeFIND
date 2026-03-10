@@ -31,6 +31,7 @@ jest.mock('../../services/AuthService', () => ({
     linkTwitterAccount: mockLinkTwitterAccount,
     updateProfile: mockUpdateProfile,
   }),
+  AuthProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
 // Mock expo-image-picker

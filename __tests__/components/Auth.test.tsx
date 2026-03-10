@@ -15,6 +15,8 @@ jest.mock('../../lib/supabase', () => ({
       signUp: (...args: any[]) => mockSignUp(...args),
       startAutoRefresh: jest.fn(),
       stopAutoRefresh: jest.fn(),
+      getSession: jest.fn().mockResolvedValue({ data: { session: null }, error: null }),
+      onAuthStateChange: jest.fn().mockReturnValue({ data: { subscription: { unsubscribe: jest.fn() } } }),
     },
   },
 }));

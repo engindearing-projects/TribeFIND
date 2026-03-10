@@ -23,6 +23,24 @@ jest.mock('../../services/AuthService', () => ({
     clearSession: mockClearSession,
     enableGoogleSignIn: mockEnableGoogleSignIn,
   }),
+  AuthProvider: ({ children }: { children: React.ReactNode }) => children,
+}));
+
+jest.mock('../../services/GoogleSignInService', () => ({
+  GoogleSignInService: {
+    configure: jest.fn().mockResolvedValue(true),
+    signIn: jest.fn().mockResolvedValue({ user: { email: 'mockgoogle@example.com' }, idToken: 'mock-google-id-token' }),
+  },
+}));
+
+jest.mock('../../services/AppleSignInService', () => ({
+  AppleSignInService: {
+    isAvailable: jest.fn().mockResolvedValue(true),
+    signIn: jest.fn().mockResolvedValue({ user: { email: 'mockapple@example.com' }, identityToken: 'mock-apple-id-token' }),
+    signOut: jest.fn().mockResolvedValue(true),
+    getCredentialState: jest.fn().mockResolvedValue('authorized'),
+    validateCredential: jest.fn().mockResolvedValue(true),
+  },
 }));
 
 jest.spyOn(Alert, 'alert');
