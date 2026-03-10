@@ -5,8 +5,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, Alert, StyleSheet } from 'react-native';
-import locationService from '../services/locationService';
-import { useAuth } from '../../services/AuthService'; // Adjust path as needed
+import locationService from './services/locationService';
+import { useAuth } from '../../../services/AuthService'; // Adjust path as needed
 
 // Example 1: Basic Location Permission and Current Location
 export const BasicLocationExample = () => {

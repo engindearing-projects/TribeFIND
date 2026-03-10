@@ -86,8 +86,7 @@ describe('NearbyTribeMembersExample', () => {
     await waitFor(() => expect(locationService.getCurrentLocation).toHaveBeenCalled());
     await waitFor(() => expect(locationService.getNearbyTribeMembers).toHaveBeenCalledWith(
       expect.any(Object),
-      5,
-      mockUser.id
+      5
     ));
     expect(getByText('Nearby Tribe Members:')).toBeTruthy();
     expect(getByText('TribeMember1')).toBeTruthy();
