@@ -10,7 +10,7 @@ import {
 } from '../MapScreenUsage';
 
 // Mock MapScreen (assuming it's a complex component with external dependencies like actual maps)
-jest.mock('../../screens/MapScreen', () => {
+jest.mock('../screens/MapScreen', () => {
   const React = require('react');
   const { View, Text } = require('react-native');
   return ({ onUserPress, onConnectPress }) => (

@@ -24,7 +24,7 @@ describe('OnboardingTutorial', () => {
     );
 
     // Modal content should not be visible
-    expect(toJSON()).toBeTruthy();
+    expect(toJSON()).toBeNull();
   });
 
   it('renders first step when visible', () => {

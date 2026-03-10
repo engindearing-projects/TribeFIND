@@ -2,6 +2,7 @@ import React from 'react';
 import { waitFor } from '@testing-library/react-native';
 import VideoGallery from '../../components/VideoGallery';
 import { renderWithProviders } from '../helpers/renderWithProviders';
+import { supabase } from '../../lib/supabase'; // Import supabase to mock it
 
 // Mock @expo/vector-icons
 jest.mock('@expo/vector-icons', () => {
@@ -25,11 +26,55 @@ jest.mock('expo-av', () => {
   };
 });
 
+// Mock supabase
+// This mock will be used by default. We'll override specific calls in tests.
+jest.mock('../../lib/supabase', () => ({
+  supabase: {
+    from: jest.fn(() => ({
+      select: jest.fn(() => ({
+        eq: jest.fn(() => ({
+          order: jest.fn(() => Promise.resolve({ data: [], error: null })), // Default to empty data
+        })),
+        order: jest.fn(() => Promise.resolve({ data: [], error: null })), // Also keep this for cases without eq
+      })),
+    })),
+  },
+}));
+
 describe('VideoGallery', () => {
-  it('shows loading state initially', () => {
+  // Clear mocks before each test
+  beforeEach(() => {
+    (supabase.from as jest.Mock).mockClear();
+  });
+
+  it('shows loading state initially', async () => {
+    let resolveVideos: (value: any) => void;
+    const deferredPromise = new Promise(resolve => {
+      resolveVideos = resolve;
+    });
+
+    // Override the default mock for this specific test
+    (supabase.from as jest.Mock).mockReturnValue({
+      select: jest.fn(() => ({
+        eq: jest.fn(() => ({
+          order: jest.fn(() => deferredPromise),
+        })),
+        order: jest.fn(() => deferredPromise),
+      })),
+    });
+
     const { getByText } = renderWithProviders(<VideoGallery />);
 
+    // Expect loading state to be present immediately after render
     expect(getByText('Loading videos...')).toBeTruthy();
+
+    // Resolve the promise to simulate data loading completion
+    resolveVideos({ data: [], error: null });
+
+    // Wait for the loading state to disappear and empty state to appear
+    await waitFor(() => {
+      expect(getByText('No videos yet')).toBeTruthy();
+    });
   });
 
   it('renders header with video count after loading', async () => {
