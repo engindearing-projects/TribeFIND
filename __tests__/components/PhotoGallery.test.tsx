@@ -45,7 +45,7 @@ describe('PhotoGallery', () => {
   });
 
   it('shows loading state initially', async () => {
-    let resolvePhotos: (value: any) => void;
+    let resolvePhotos: (value: any) => void = () => {};
     const deferredPromise = new Promise(resolve => {
       resolvePhotos = resolve;
     });

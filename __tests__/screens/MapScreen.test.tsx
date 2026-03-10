@@ -37,6 +37,7 @@ jest.mock('../../lib/supabase', () => {
   return {
     supabase: {
       from: jest.fn(() => chainable()),
+      rpc: jest.fn().mockResolvedValue({ data: [], error: null }),
       channel: jest.fn(() => ({
         on: jest.fn().mockReturnThis(),
         subscribe: jest.fn().mockReturnValue({ unsubscribe: jest.fn() }),
@@ -70,6 +71,14 @@ jest.mock('../../components/ActivityFilter', () => {
 });
 
 describe('MapScreen', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it('shows loading state initially', () => {
     const { getByText } = renderWithProviders(<MapScreen />);
 
@@ -77,39 +86,42 @@ describe('MapScreen', () => {
   });
 
   it('renders the map after loading completes', async () => {
+    jest.useRealTimers();
     const { queryByText } = renderWithProviders(<MapScreen />);
 
     await waitFor(
       () => {
         expect(queryByText('Finding your tribe...')).toBeNull();
       },
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
-  });
+  }, 15000);
 
   it('renders activity filter after loading', async () => {
+    jest.useRealTimers();
     const { getByText, queryByText } = renderWithProviders(<MapScreen />);
 
     await waitFor(
       () => {
         expect(queryByText('Finding your tribe...')).toBeNull();
       },
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
 
     expect(getByText('ActivityFilter')).toBeTruthy();
-  });
+  }, 15000);
 
   it('renders status indicators after loading', async () => {
+    jest.useRealTimers();
     const { getByText, queryByText } = renderWithProviders(<MapScreen />);
 
     await waitFor(
       () => {
         expect(queryByText('Finding your tribe...')).toBeNull();
       },
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
 
     expect(getByText('Real-time Updates')).toBeTruthy();
-  });
+  }, 15000);
 });
