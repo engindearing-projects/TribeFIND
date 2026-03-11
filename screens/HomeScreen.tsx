@@ -43,11 +43,11 @@ export default function HomeScreen() {
       colors={['#6366f1', '#8b5cf6', '#a855f7']}
       style={styles.container}
     >
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styles.safeArea} testID="home-screen">
         <View style={styles.content}>
           <View style={styles.header}>
             <View style={styles.welcomeContainer}>
-              <Text style={styles.welcome}>Hey {user?.display_name}! 👋</Text>
+              <Text style={styles.welcome} testID="welcome-text">Hey {user?.display_name}! 👋</Text>
               <Text style={styles.subtitle}>Your captured moments</Text>
             </View>
             
@@ -67,6 +67,7 @@ export default function HomeScreen() {
             <TouchableOpacity
               style={[styles.tab, activeTab === 'photos' && styles.activeTab]}
               onPress={() => setActiveTab('photos')}
+              testID="photos-tab"
             >
               <Text style={[styles.tabText, activeTab === 'photos' && styles.activeTabText]}>
                 📸 Photos
@@ -76,6 +77,7 @@ export default function HomeScreen() {
             <TouchableOpacity
               style={[styles.tab, activeTab === 'videos' && styles.activeTab]}
               onPress={() => setActiveTab('videos')}
+              testID="videos-tab"
             >
               <Text style={[styles.tabText, activeTab === 'videos' && styles.activeTabText]}>
                 🎥 Videos

@@ -271,10 +271,10 @@ const ChatScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} testID="chat-screen">
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={90}>
         <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}><Ionicons name="arrow-back" size={24} color="#1F2937" /></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton} testID="chat-back-button"><Ionicons name="arrow-back" size={24} color="#1F2937" /></TouchableOpacity>
             <View style={styles.headerInfo}>
                 {renderAvatar(otherUser?.avatar, 36)}
                 <View>
@@ -301,8 +301,9 @@ const ChatScreen: React.FC = () => {
             value={messageText}
             onChangeText={setMessageText}
             multiline
+            testID="message-input"
           />
-          <TouchableOpacity onPress={sendMessage} style={styles.sendButton} disabled={!messageText.trim() || sending}>
+          <TouchableOpacity onPress={sendMessage} style={styles.sendButton} disabled={!messageText.trim() || sending} testID="send-button">
             {sending ? <ActivityIndicator color="#fff" /> : <Ionicons name="send" size={20} color="#FFFFFF" />}
           </TouchableOpacity>
         </View>

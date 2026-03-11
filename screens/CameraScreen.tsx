@@ -456,9 +456,10 @@ export default function CameraScreen() {
             <Ionicons name="images" size={24} color="white" />
           </TouchableOpacity>
           
-          <TouchableOpacity 
-            style={styles.captureButton} 
+          <TouchableOpacity
+            style={styles.captureButton}
             onPress={takePicture}
+            testID="capture-button"
           >
             <View style={[styles.captureButtonInner, mode === 'video' && styles.videoCaptureButton]}>
               <Ionicons 

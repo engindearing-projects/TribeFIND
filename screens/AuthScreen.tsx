@@ -173,6 +173,7 @@ export default function AuthScreen() {
     <LinearGradient
       colors={['#667eea', '#764ba2']}
       style={styles.container}
+      testID="auth-screen"
     >
       <SafeAreaView style={styles.safeArea}>
         <KeyboardAvoidingView
@@ -214,6 +215,7 @@ export default function AuthScreen() {
                         onChangeText={setUsername}
                         autoCapitalize="none"
                         autoCorrect={false}
+                        testID="username-input"
                       />
                     </View>
 
@@ -226,6 +228,7 @@ export default function AuthScreen() {
                         value={displayName}
                         onChangeText={setDisplayName}
                         autoCorrect={false}
+                        testID="display-name-input"
                       />
                     </View>
                   </>
@@ -243,6 +246,7 @@ export default function AuthScreen() {
                     keyboardType="email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
+                    testID="email-input"
                   />
                 </View>
 
@@ -257,6 +261,7 @@ export default function AuthScreen() {
                     onChangeText={setPassword}
                     secureTextEntry
                     autoCorrect={false}
+                    testID="password-input"
                   />
                 </View>
 
@@ -265,6 +270,7 @@ export default function AuthScreen() {
                   style={[styles.authButton, loading && styles.authButtonDisabled]}
                   onPress={handleAuth}
                   disabled={loading}
+                  testID="auth-submit-button"
                 >
                   <LinearGradient
                     colors={loading ? ['#999', '#666'] : ['#8b5cf6', '#6366f1']}
@@ -293,11 +299,12 @@ export default function AuthScreen() {
                 {/* Google Sign In Button */}
                 <TouchableOpacity
                   style={[
-                    styles.googleButton, 
+                    styles.googleButton,
                     loading && styles.authButtonDisabled
                   ]}
                   onPress={handleGoogleSignIn}
                   disabled={loading}
+                  testID="google-signin-button"
                 >
                   <View style={styles.googleButtonContent}>
                     <Text style={styles.googleIcon}>🔍</Text>
@@ -312,6 +319,7 @@ export default function AuthScreen() {
                   style={[styles.twitterButton, loading && styles.authButtonDisabled]}
                   onPress={handleTwitterSignIn}
                   disabled={loading}
+                  testID="twitter-signin-button"
                 >
                   <View style={styles.twitterButtonContent}>
                     <Text style={styles.twitterIcon}>🐦</Text>
@@ -326,6 +334,7 @@ export default function AuthScreen() {
                   style={[styles.appleButton, loading && styles.authButtonDisabled]}
                   onPress={handleAppleSignIn}
                   disabled={loading}
+                  testID="apple-signin-button"
                 >
                   <View style={styles.appleButtonContent}>
                     <Text style={styles.appleIcon}>🍎</Text>
@@ -339,6 +348,7 @@ export default function AuthScreen() {
                 <TouchableOpacity
                   style={styles.switchButton}
                   onPress={() => setIsSignUp(!isSignUp)}
+                  testID="switch-auth-mode"
                 >
                   <Text style={styles.switchText}>
                     {isSignUp

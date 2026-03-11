@@ -371,7 +371,7 @@ export default function ProfileScreen() {
   const hasTwitterLinked = displayUser?.social_accounts?.twitter?.id
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} testID="profile-screen">
       <ScrollView 
         style={styles.content}
         refreshControl={
@@ -386,7 +386,7 @@ export default function ProfileScreen() {
           <View style={styles.avatarContainerWrapper}>
             {renderAvatar()}
           </View>
-          <Text style={styles.displayName}>{displayUser.display_name}</Text>
+          <Text style={styles.displayName} testID="profile-display-name">{displayUser.display_name}</Text>
           <Text style={styles.username}>@{displayUser.username}</Text>
           <Text style={styles.bio}>{displayUser.bio || 'No bio yet'}</Text>
           
@@ -523,7 +523,7 @@ export default function ProfileScreen() {
           )}
         </View>
 
-        <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+        <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut} testID="sign-out-button">
           <Text style={styles.signOutText}>Sign Out</Text>
         </TouchableOpacity>
 

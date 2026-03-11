@@ -733,7 +733,7 @@ const MapScreen: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="map-screen">
       {/* Activity Filter */}
       <ActivityFilter
         onFilterChange={handleActivityFilterChange}

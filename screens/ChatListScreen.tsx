@@ -237,6 +237,7 @@ const ChatListScreen: React.FC = () => {
             otherUser: otherUser,
           });
         }}
+        testID="chat-room-item"
       >
         <View style={styles.avatarContainer}>
           {isImageUrl ? (
@@ -318,7 +319,7 @@ const ChatListScreen: React.FC = () => {
 
   return (
     <LinearGradient colors={['#6366f1', '#8b5cf6', '#a855f7']} style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styles.safeArea} testID="chat-list-screen">
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Tribe Chat</Text>
@@ -336,6 +337,7 @@ const ChatListScreen: React.FC = () => {
               onChangeText={setSearchQuery}
               autoCapitalize="none"
               placeholderTextColor="#9CA3AF"
+              testID="chat-search-input"
             />
             {searchQuery.length > 0 && (
               <TouchableOpacity onPress={() => setSearchQuery('')}>

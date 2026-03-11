@@ -1,4 +1,4 @@
-describe('Example', () => {
+describe('App Launch', () => {
   beforeAll(async () => {
     await device.launchApp();
   });
@@ -7,7 +7,11 @@ describe('Example', () => {
     await device.reloadReactNative();
   });
 
-  it('should have welcome screen', async () => {
-    await expect(element(by.id('welcome-screen'))).toBeVisible();
+  it('should show auth screen on fresh launch', async () => {
+    await expect(element(by.id('auth-screen'))).toBeVisible();
+  });
+
+  it('should show the app title', async () => {
+    await expect(element(by.text('TribeFind'))).toBeVisible();
   });
 });
