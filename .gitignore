@@ -61,6 +61,7 @@ logs/
 # Build artifacts
 build/
 dist/
+.detox_artifacts/
 
 # Old versions/duplicates
 snapchat/

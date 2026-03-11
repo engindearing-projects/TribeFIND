@@ -11,7 +11,7 @@ module.exports = {
     ...expoPreset.moduleNameMapper,
     '^@/(.*)$': '<rootDir>/$1',
   },
-  testPathIgnorePatterns: ['/node_modules/', '/android/', '/ios/', '<rootDir>/__tests__/helpers/renderWithProviders.tsx', '<rootDir>/src/examples/'],
+  testPathIgnorePatterns: ['/node_modules/', '/android/', '/ios/', '/e2e/', '<rootDir>/__tests__/helpers/renderWithProviders.tsx', '<rootDir>/src/examples/'],
   collectCoverageFrom: [
     '**/*.{ts,tsx}',
     '!**/node_modules/**',
