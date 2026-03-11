@@ -7,9 +7,9 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "test": "jest --maxWorkers=2",
-    "test:watch": "jest --watch --maxWorkers=2",
-    "test:coverage": "jest --coverage --maxWorkers=2"
+    "test": "NODE_OPTIONS='--max-old-space-size=4096' jest --maxWorkers=2",
+    "test:watch": "NODE_OPTIONS='--max-old-space-size=4096' jest --watch --maxWorkers=2",
+    "test:coverage": "NODE_OPTIONS='--max-old-space-size=4096' jest --coverage --maxWorkers=2"
   },
   "expo": {
     "doctor": {

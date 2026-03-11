@@ -6,13 +6,17 @@ import { renderWithProviders } from '../helpers/renderWithProviders';
 // Mock supabase with proper chainable methods for ActivityFilter queries
 jest.mock('../../lib/supabase', () => {
   const chainable = () => {
+    const result = Promise.resolve({ data: [], error: null });
     const obj: any = {
       select: jest.fn(() => obj),
-      eq: jest.fn(() => Promise.resolve({ data: [], error: null })),
-      neq: jest.fn(() => Promise.resolve({ data: [], error: null })),
-      limit: jest.fn(() => Promise.resolve({ data: [], error: null })),
+      eq: jest.fn(() => obj),
+      neq: jest.fn(() => obj),
+      limit: jest.fn(() => result),
       order: jest.fn(() => obj),
       single: jest.fn(() => Promise.resolve({ data: null, error: null })),
+      then: result.then.bind(result),
+      catch: result.catch.bind(result),
+      finally: result.finally.bind(result),
     };
     return obj;
   };
