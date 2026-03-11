@@ -43,11 +43,19 @@ yarn-error.*
 *.tsbuildinfo
 
 # Security and credentials
+credentials.json
 google-services.json
+GoogleService-Info.plist
+ios_distribution.cer
 *.key
 *.pem
 *.crt
 *.p12
+*.cer
+
+# Environment files (keep .env.example tracked)
+.env.*
+!.env.example
 
 # Logs
 logs/
