@@ -4,6 +4,7 @@ import { store } from './store'
 import { AuthProvider } from './services/AuthService'
 import { GoogleSignInService } from './services/GoogleSignInService'
 import { TwitterSignInService } from './services/TwitterSignInService'
+import { NotificationService } from './services/NotificationService'
 import Navigation from './navigation'
 
 export default function App() {
@@ -44,6 +45,14 @@ export default function App() {
           console.log('⚠️ Twitter Sign In configuration failed:', twitterError)
         }
         
+        // Initialize push notifications
+        try {
+          await NotificationService.initialize()
+          console.log('✅ Push notifications initialized')
+        } catch (notifError) {
+          console.log('⚠️ Push notifications initialization failed:', notifError)
+        }
+
         console.log('🎉 Authentication services initialization complete')
         console.log('📱 App ready for demo and testing!')
       } catch (error) {
@@ -53,6 +62,10 @@ export default function App() {
     }
     
     initializeServices()
+
+    return () => {
+      NotificationService.cleanup()
+    }
   }, [])
 
   return (

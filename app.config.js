@@ -139,7 +139,15 @@ export default {
         }
       ],
       // "expo-apple-authentication", // Temporarily disabled - provisioning profile needs Sign in with Apple capability
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-notifications",
+        {
+          icon: "./assets/icon.png",
+          color: "#6366f1",
+          sounds: []
+        }
+      ]
     ],
     extra: {
       eas: {

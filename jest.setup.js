@@ -119,6 +119,36 @@ jest.mock('./lib/supabase', () => ({
   testSupabaseConnection: jest.fn().mockResolvedValue(true),
 }));
 
+// Mock expo-notifications
+jest.mock('expo-notifications', () => ({
+  getPermissionsAsync: jest.fn().mockResolvedValue({ status: 'granted' }),
+  requestPermissionsAsync: jest.fn().mockResolvedValue({ status: 'granted' }),
+  getExpoPushTokenAsync: jest.fn().mockResolvedValue({ data: 'ExponentPushToken[mock-token]' }),
+  setNotificationHandler: jest.fn(),
+  setNotificationChannelAsync: jest.fn().mockResolvedValue(null),
+  addNotificationReceivedListener: jest.fn().mockReturnValue({ remove: jest.fn() }),
+  addNotificationResponseReceivedListener: jest.fn().mockReturnValue({ remove: jest.fn() }),
+  AndroidImportance: { HIGH: 4 },
+}));
+
+// Mock expo-device
+jest.mock('expo-device', () => ({
+  isDevice: true,
+  modelName: 'iPhone 15',
+}));
+
+// Mock NotificationService
+jest.mock('./services/NotificationService', () => ({
+  NotificationService: {
+    initialize: jest.fn().mockResolvedValue(undefined),
+    requestPermissions: jest.fn().mockResolvedValue(true),
+    registerForPushNotifications: jest.fn().mockResolvedValue('ExponentPushToken[mock-token]'),
+    savePushTokenToProfile: jest.fn().mockResolvedValue({}),
+    setupListeners: jest.fn(),
+    cleanup: jest.fn(),
+  },
+}));
+
 // Mock react-native-reanimated
 jest.mock('react-native-reanimated', () => {
   const Reanimated = require('react-native-reanimated/mock');
