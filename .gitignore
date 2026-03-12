@@ -74,3 +74,17 @@ dist/
 # Old versions/duplicates
 snapchat/
 snapchat-clone/
+
+# Backup files
+*.backup
+
+# Demo screenshots
+IMG_*.PNG
+IMG_*.png
+
+# Demo/setup SQL (keep src/sql/ for migrations)
+*.sql
+!src/sql/**
+
+# Test output
+test_output.txt

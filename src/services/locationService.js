@@ -19,13 +19,13 @@ class LocationService {
    */
   async requestLocationPermission() {
     try {
-      console.log('🔒 Requesting location permissions...');
+      if (__DEV__) console.log('Requesting location permissions...');
       
       // Check current permission status
       const { status: existingStatus } = await Location.getForegroundPermissionsAsync();
       
       if (existingStatus === 'granted') {
-        console.log('✅ Location permission already granted');
+        if (__DEV__) console.log('Location permission already granted');
         return { granted: true };
       }
 
@@ -33,10 +33,10 @@ class LocationService {
       const { status } = await Location.requestForegroundPermissionsAsync();
       
       if (status === 'granted') {
-        console.log('✅ Location permission granted');
+        if (__DEV__) console.log('Location permission granted');
         return { granted: true };
       } else {
-        console.log('❌ Location permission denied');
+        if (__DEV__) console.log('Location permission denied');
         return { 
           granted: false, 
           error: 'Location permission is required to find your tribe and share memories with nearby users.' 
@@ -60,7 +60,7 @@ class LocationService {
    */
   async getCurrentLocation(options = {}) {
     try {
-      console.log('📍 Getting current location...');
+      if (__DEV__) console.log('Getting current location...');
       
       // Check permissions first
       const permissionResult = await this.requestLocationPermission();
@@ -102,7 +102,7 @@ class LocationService {
       };
 
       this.lastKnownLocation = locationData;
-      console.log('✅ Location obtained:', {
+      if (__DEV__) console.log('Location obtained:', {
         lat: locationData.latitude.toFixed(6),
         lng: locationData.longitude.toFixed(6),
         accuracy: locationData.accuracy
@@ -138,7 +138,7 @@ class LocationService {
    */
   async updateUserLocation(userId, location) {
     try {
-      console.log('💾 Updating user location in database...', {
+      if (__DEV__) console.log('Updating user location in database...', {
         userId: userId?.substring(0, 8) + '...',
         lat: location.latitude?.toFixed(6),
         lng: location.longitude?.toFixed(6)
@@ -190,7 +190,7 @@ class LocationService {
         };
       }
 
-      console.log('✅ Location updated successfully for user:', data[0].username);
+      if (__DEV__) console.log('Location updated successfully for user:', data[0].username);
       return { success: true, data: data[0] };
 
     } catch (error) {
@@ -213,7 +213,7 @@ class LocationService {
    */
   async startLocationTracking(userId, options = {}) {
     try {
-      console.log('🎯 Starting location tracking for TribeFind...');
+      if (__DEV__) console.log('Starting location tracking...');
 
       // Check permissions
       const permissionResult = await this.requestLocationPermission();
@@ -261,7 +261,7 @@ class LocationService {
             options.onLocationUpdate(locationData, updateResult);
           }
 
-          console.log('📍 Location tracking update:', {
+          if (__DEV__) console.log('Location tracking update:', {
             lat: locationData.latitude.toFixed(6),
             lng: locationData.longitude.toFixed(6),
             success: updateResult.success
@@ -269,7 +269,7 @@ class LocationService {
         }
       );
 
-      console.log('✅ Location tracking started');
+      if (__DEV__) console.log('Location tracking started');
       return { success: true };
 
     } catch (error) {
@@ -285,7 +285,7 @@ class LocationService {
     if (this.watchSubscription) {
       this.watchSubscription.remove();
       this.watchSubscription = null;
-      console.log('🛑 Location tracking stopped');
+      if (__DEV__) console.log('Location tracking stopped');
     }
   }
 
@@ -297,7 +297,7 @@ class LocationService {
    */
   async getNearbyTribeMembers(location, radiusKm = 5) {
     try {
-      console.log('🔍 Finding nearby tribe members...');
+      if (__DEV__) console.log('Finding nearby tribe members...');
 
       if (!location || !location.latitude || !location.longitude) {
         return { error: 'Current location is required' };
@@ -331,7 +331,7 @@ class LocationService {
         return { error: 'Failed to find nearby tribe members' };
       }
 
-      console.log(`✅ Found ${data?.length || 0} nearby tribe members`);
+      if (__DEV__) console.log(`Found ${data?.length || 0} nearby tribe members`);
       return { users: data || [] };
 
     } catch (error) {
