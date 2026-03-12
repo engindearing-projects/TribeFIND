@@ -22,6 +22,8 @@ import ChatListScreen from '../screens/ChatListScreen'
 import ChatScreen from '../screens/ChatScreen'
 import StoryViewerScreen from '../screens/StoryViewerScreen'
 import CreateStoryScreen from '../screens/CreateStoryScreen'
+import PrivacyPolicyScreen from '../screens/PrivacyPolicyScreen'
+import TermsOfServiceScreen from '../screens/TermsOfServiceScreen'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -225,6 +227,20 @@ export default function Navigation() {
               options={{
                 headerShown: false,
                 presentation: 'modal',
+              }}
+            />
+            <Stack.Screen
+              name="PrivacyPolicy"
+              component={PrivacyPolicyScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="TermsOfService"
+              component={TermsOfServiceScreen}
+              options={{
+                headerShown: false,
               }}
             />
           </>

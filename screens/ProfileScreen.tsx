@@ -523,6 +523,37 @@ export default function ProfileScreen() {
           )}
         </View>
 
+        {/* Legal Section */}
+        <View style={[styles.settings, { marginTop: 20 }]}>
+          <Text style={styles.sectionTitle}>Legal</Text>
+
+          <TouchableOpacity
+            style={styles.settingItem}
+            onPress={() => navigation.navigate('PrivacyPolicy' as never)}
+            testID="privacy-policy-link"
+          >
+            <Text style={styles.settingIcon}>🔒</Text>
+            <View style={styles.settingContent}>
+              <Text style={styles.settingTitle}>Privacy Policy</Text>
+              <Text style={styles.settingSubtitle}>How we handle your data</Text>
+            </View>
+            <Text style={styles.settingArrow}>›</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.settingItem}
+            onPress={() => navigation.navigate('TermsOfService' as never)}
+            testID="terms-of-service-link"
+          >
+            <Text style={styles.settingIcon}>📋</Text>
+            <View style={styles.settingContent}>
+              <Text style={styles.settingTitle}>Terms of Service</Text>
+              <Text style={styles.settingSubtitle}>Rules and guidelines</Text>
+            </View>
+            <Text style={styles.settingArrow}>›</Text>
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut} testID="sign-out-button">
           <Text style={styles.signOutText}>Sign Out</Text>
         </TouchableOpacity>

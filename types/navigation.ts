@@ -37,6 +37,10 @@ export type RootStackParamList = {
   // Settings Screens
   LocationSettings: undefined;
   HomeLocationSettings: undefined;
+
+  // Legal Screens
+  PrivacyPolicy: undefined;
+  TermsOfService: undefined;
 };
 
 export type TabParamList = {
