@@ -3,6 +3,10 @@ import { fireEvent, waitFor } from '@testing-library/react-native';
 import HomeScreen from '../../screens/HomeScreen';
 import { renderWithProviders, mockUser } from '../helpers/renderWithProviders';
 
+jest.mock('../../services/StoriesService', () => ({
+  fetchStoryGroups: jest.fn().mockResolvedValue([]),
+}));
+
 // Mock child components
 jest.mock('../../components/PhotoGallery', () => {
   const React = require('react');
@@ -19,6 +23,20 @@ jest.mock('../../components/VideoGallery', () => {
   return {
     __esModule: true,
     default: () => React.createElement(Text, null, 'VideoGallery'),
+  };
+});
+
+jest.mock('../../components/StoryCard', () => {
+  const React = require('react');
+  const { Text, TouchableOpacity } = require('react-native');
+  return {
+    __esModule: true,
+    default: ({ group, isMyStory, onPress }: any) =>
+      React.createElement(
+        TouchableOpacity,
+        { onPress, testID: isMyStory ? 'my-story-card' : `story-card-${group.user_id}` },
+        React.createElement(Text, null, isMyStory ? 'My Story' : group.display_name)
+      ),
   };
 });
 
