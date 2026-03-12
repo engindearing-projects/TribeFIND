@@ -160,6 +160,11 @@ describe('ImageFilters', () => {
       expect(PHOTO_FILTERS[1].transform).toHaveBeenCalledTimes(1);
     });
 
+    // Wait for processing to finish before pressing next filter
+    await waitFor(() => {
+      expect(getByText('B&W').parent?.parent?.props.disabled).toBeFalsy();
+    });
+
     // Switch to B&W
     fireEvent.press(getByText('B&W'));
     await waitFor(() => {
