@@ -147,6 +147,13 @@ export default {
           color: "#6366f1",
           sounds: []
         }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          organization: process.env.SENTRY_ORG || "tribefind",
+          project: process.env.SENTRY_PROJECT || "tribefind-mobile"
+        }
       ]
     ],
     extra: {

@@ -1,5 +1,6 @@
 import { supabase } from '../lib/supabase'
 import { Story, StoryGroup } from '../types/stories'
+import { AnalyticsService } from './AnalyticsService'
 
 const STORY_DURATION_HOURS = 24
 
@@ -95,6 +96,7 @@ export async function createStory(
     return null
   }
 
+  AnalyticsService.trackStoryCreated(mediaType)
   return { ...data, views: [] } as Story
 }
 
@@ -108,6 +110,8 @@ export async function recordStoryView(storyId: string, userId: string): Promise<
 
   if (error) {
     console.error('Failed to record story view:', error.message)
+  } else {
+    AnalyticsService.trackStoryViewed(storyId)
   }
 }
 
@@ -121,6 +125,7 @@ export async function deleteStory(storyId: string): Promise<boolean> {
     console.error('Failed to delete story:', error.message)
     return false
   }
+  AnalyticsService.trackStoryDeleted(storyId)
   return true
 }
 

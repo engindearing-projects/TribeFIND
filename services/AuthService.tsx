@@ -6,6 +6,7 @@ import { Session } from '@supabase/supabase-js'
 import { GoogleSignInService } from './GoogleSignInService'
 import { TwitterSignInService } from './TwitterSignInService'
 import { AppleSignInService } from './AppleSignInService'
+import { AnalyticsService } from './AnalyticsService'
 import * as WebBrowser from 'expo-web-browser'
 import * as Linking from 'expo-linking'
 
@@ -338,6 +339,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             username: userProfile.username,
             email: userProfile.email
           })
+          AnalyticsService.setUser({ id: userProfile.id, email: userProfile.email, username: userProfile.username })
 
           // Update online status
           await supabase
@@ -363,6 +365,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } else {
       console.log('🚪 No session found, clearing auth state')
       dispatch(clearAuth())
+      AnalyticsService.setUser(null)
     }
     dispatch(setLoading(false))
   }
@@ -437,6 +440,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         
         // Profile will be created by handleAuthStateChange
         console.log('✅ Sign up successful - profile will be created automatically')
+        AnalyticsService.trackSignUp('email')
         return {}
       }
 
@@ -530,6 +534,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       if (data.user) {
         console.log('✅ Email/password sign in successful')
+        AnalyticsService.trackSignIn('email')
         return {}
       }
 
@@ -839,10 +844,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
 
       console.log('✅ Google Sign-In and user processing complete')
-      
+      AnalyticsService.trackSignIn('google')
+
       // Navigate to Map screen after successful Google OAuth
       setTimeout(() => navigateToMapAfterOAuth(), 500)
-      
+
       return {}
     } catch (error) {
       console.error('❌ Google Sign In error:', error)
@@ -899,10 +905,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
 
       console.log('✅ Twitter Sign-In and user processing complete')
-      
+      AnalyticsService.trackSignIn('twitter')
+
       // Navigate to Map screen after successful Twitter OAuth
       setTimeout(() => navigateToMapAfterOAuth(), 500)
-      
+
       return {}
     } catch (error) {
       console.error('❌ Twitter Sign In error:', error)
@@ -967,10 +974,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
 
       console.log('✅ Apple Sign-In and user processing complete')
-      
+      AnalyticsService.trackSignIn('apple')
+
       // Navigate to Map screen after successful Apple OAuth
       setTimeout(() => navigateToMapAfterOAuth(), 500)
-      
+
       return {}
     } catch (error) {
       console.error('❌ Apple Sign In error:', error)
@@ -1040,6 +1048,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         return { error: error.message }
       }
 
+      AnalyticsService.trackSignOut()
       return {}
     } catch (error) {
       console.error('Sign out error:', error)

@@ -212,6 +212,47 @@ jest.mock('expo-linear-gradient', () => {
   };
 });
 
+// Mock @sentry/react-native
+jest.mock('@sentry/react-native', () => ({
+  init: jest.fn(),
+  wrap: jest.fn((component) => component),
+  captureException: jest.fn(),
+  captureMessage: jest.fn(),
+  withScope: jest.fn((callback) => callback({ setExtra: jest.fn() })),
+  setUser: jest.fn(),
+  addBreadcrumb: jest.fn(),
+}));
+
+// Mock SentryService
+jest.mock('./services/SentryService', () => ({
+  SentryService: {
+    initialize: jest.fn(),
+    captureException: jest.fn(),
+    captureMessage: jest.fn(),
+    setUser: jest.fn(),
+    addBreadcrumb: jest.fn(),
+    isInitialized: jest.fn().mockReturnValue(false),
+    wrap: jest.fn((component) => component),
+  },
+}));
+
+// Mock AnalyticsService
+jest.mock('./services/AnalyticsService', () => ({
+  AnalyticsService: {
+    trackEvent: jest.fn(),
+    trackScreenView: jest.fn(),
+    trackSignUp: jest.fn(),
+    trackSignIn: jest.fn(),
+    trackSignOut: jest.fn(),
+    trackStoryCreated: jest.fn(),
+    trackStoryViewed: jest.fn(),
+    trackStoryDeleted: jest.fn(),
+    trackChatMessageSent: jest.fn(),
+    trackError: jest.fn(),
+    setUser: jest.fn(),
+  },
+}));
+
 // Mock services
 jest.mock('./services/GoogleSignInService', () => ({
   GoogleSignInService: {

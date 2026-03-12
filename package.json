@@ -63,7 +63,8 @@
     "react-native-vision-camera": "^4.7.0",
     "react-redux": "^9.2.0",
     "expo-notifications": "~0.31.5",
-    "expo-device": "~7.1.4"
+    "expo-device": "~7.1.4",
+    "@sentry/react-native": "~6.14.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

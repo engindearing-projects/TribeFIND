@@ -5,9 +5,13 @@ import { AuthProvider } from './services/AuthService'
 import { GoogleSignInService } from './services/GoogleSignInService'
 import { TwitterSignInService } from './services/TwitterSignInService'
 import { NotificationService } from './services/NotificationService'
+import { SentryService } from './services/SentryService'
 import Navigation from './navigation'
 
-export default function App() {
+// Initialize Sentry as early as possible
+SentryService.initialize()
+
+function App() {
   useEffect(() => {
     console.log('🚀 TribeFind starting up...')
     console.log('🔧 Environment variables check:')
@@ -76,3 +80,5 @@ export default function App() {
     </Provider>
   )
 }
+
+export default SentryService.wrap(App)
