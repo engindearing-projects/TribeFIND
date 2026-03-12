@@ -30,6 +30,10 @@ export type RootStackParamList = {
   // User Screens
   UserSearch: undefined;
   
+  // Story Screens
+  StoryViewer: undefined;
+  CreateStory: undefined;
+
   // Settings Screens
   LocationSettings: undefined;
   HomeLocationSettings: undefined;

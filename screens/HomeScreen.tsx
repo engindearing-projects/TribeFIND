@@ -1,19 +1,57 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react'
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, FlatList } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
+import { useNavigation } from '@react-navigation/native'
 import { useAppSelector, useAppDispatch } from '../store'
 import { setTutorialVisible, completeTutorial, skipTutorial, markUserAsReturning } from '../store/tutorialSlice'
+import { setStoryGroups, setLoading, setViewingGroup, removeExpiredStories } from '../store/storiesSlice'
+import { fetchStoryGroups } from '../services/StoriesService'
 import PhotoGallery from '../components/PhotoGallery'
 import VideoGallery from '../components/VideoGallery'
 import OnboardingTutorial from '../components/OnboardingTutorial'
+import StoryCard from '../components/StoryCard'
 
 type MediaTab = 'photos' | 'videos'
 
 export default function HomeScreen() {
   const { user } = useAppSelector((state: any) => state.auth)
   const { tutorialVisible, firstTimeUser, hasCompletedOnboarding } = useAppSelector((state: any) => state.tutorial)
+  const { storyGroups } = useAppSelector((state: any) => state.stories)
   const dispatch = useAppDispatch()
+  const navigation = useNavigation<any>()
   const [activeTab, setActiveTab] = useState<MediaTab>('photos')
+
+  // Load stories on mount and refresh periodically
+  useEffect(() => {
+    if (!user) return
+    loadStories()
+    const interval = setInterval(loadStories, 30000)
+    return () => clearInterval(interval)
+  }, [user])
+
+  // Client-side auto-expire: prune expired stories between server refreshes
+  useEffect(() => {
+    const expireInterval = setInterval(() => {
+      dispatch(removeExpiredStories())
+    }, 10000)
+    return () => clearInterval(expireInterval)
+  }, [])
+
+  const loadStories = useCallback(async () => {
+    if (!user) return
+    dispatch(setLoading(true))
+    const groups = await fetchStoryGroups(user.id)
+    dispatch(setStoryGroups(groups))
+  }, [user])
+
+  const handleStoryPress = useCallback((index: number) => {
+    dispatch(setViewingGroup(index))
+    navigation.navigate('StoryViewer')
+  }, [])
+
+  const handleCreateStory = useCallback(() => {
+    navigation.navigate('CreateStory')
+  }, [])
 
   // Show tutorial for first-time users
   useEffect(() => {
@@ -61,6 +99,46 @@ export default function HomeScreen() {
               </TouchableOpacity>
             )}
           </View>
+
+          {/* Stories Bar */}
+          <FlatList
+            horizontal
+            data={storyGroups}
+            keyExtractor={(item) => item.user_id}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.storiesBar}
+            ListHeaderComponent={
+              user ? (
+                <StoryCard
+                  group={{
+                    user_id: user.id,
+                    username: user.username || '',
+                    display_name: user.display_name || 'You',
+                    avatar: user.avatar || '',
+                    stories: storyGroups.find((g: any) => g.user_id === user.id)?.stories || [],
+                    has_unviewed: false,
+                    latest_at: '',
+                  }}
+                  isMyStory
+                  onPress={() => {
+                    const myIdx = storyGroups.findIndex((g: any) => g.user_id === user.id)
+                    if (myIdx >= 0) handleStoryPress(myIdx)
+                  }}
+                  onAddPress={handleCreateStory}
+                />
+              ) : null
+            }
+            renderItem={({ item, index }) => {
+              if (item.user_id === user?.id) return null
+              return (
+                <StoryCard
+                  group={item}
+                  onPress={() => handleStoryPress(index)}
+                />
+              )
+            }}
+            testID="stories-bar"
+          />
 
           {/* Tab Selector */}
           <View style={styles.tabContainer}>
@@ -176,6 +254,10 @@ const styles = StyleSheet.create({
   },
   activeTabText: {
     color: '#6366f1',
+  },
+  storiesBar: {
+    paddingHorizontal: 16,
+    paddingBottom: 12,
   },
   feed: {
     flex: 1,

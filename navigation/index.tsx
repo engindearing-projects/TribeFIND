@@ -20,6 +20,8 @@ import ActivitiesScreen from '../screens/ActivitiesScreen'
 import UserSearchScreen from '../screens/UserSearchScreen'
 import ChatListScreen from '../screens/ChatListScreen'
 import ChatScreen from '../screens/ChatScreen'
+import StoryViewerScreen from '../screens/StoryViewerScreen'
+import CreateStoryScreen from '../screens/CreateStoryScreen'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -201,11 +203,28 @@ export default function Navigation() {
                 headerTintColor: '#fff',
               }}
             />
-            <Stack.Screen 
-              name="ChatScreen" 
+            <Stack.Screen
+              name="ChatScreen"
               component={ChatScreen}
               options={{
-                headerShown: false, // Using custom header in the component
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="StoryViewer"
+              component={StoryViewerScreen}
+              options={{
+                headerShown: false,
+                presentation: 'fullScreenModal',
+                gestureEnabled: true,
+              }}
+            />
+            <Stack.Screen
+              name="CreateStory"
+              component={CreateStoryScreen}
+              options={{
+                headerShown: false,
+                presentation: 'modal',
               }}
             />
           </>

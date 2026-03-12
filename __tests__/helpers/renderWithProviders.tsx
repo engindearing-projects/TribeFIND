@@ -8,6 +8,7 @@ import privacySlice from '../../store/privacySlice';
 import contactsSlice from '../../store/contactsSlice';
 import messagingSlice from '../../store/messagingSlice';
 import tutorialSlice from '../../store/tutorialSlice';
+import storiesSlice from '../../store/storiesSlice';
 import { AuthProvider } from '../../services/AuthService'; // Import AuthProvider
 
 jest.mock('../../lib/supabase'); // Mock supabase for tests
@@ -102,6 +103,14 @@ export function createMockStore(overrides: any = {}) {
       firstTimeUser: true,
       ...overrides.tutorial,
     },
+    stories: {
+      storyGroups: [],
+      myStories: [],
+      loading: false,
+      viewingGroupIndex: null,
+      viewingStoryIndex: 0,
+      ...overrides.stories,
+    },
   };
 
   return configureStore({
@@ -112,6 +121,7 @@ export function createMockStore(overrides: any = {}) {
       contacts: contactsSlice,
       messaging: messagingSlice,
       tutorial: tutorialSlice,
+      stories: storiesSlice,
     },
     preloadedState,
     middleware: (getDefaultMiddleware) =>

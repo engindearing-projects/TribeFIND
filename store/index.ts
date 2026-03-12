@@ -7,6 +7,7 @@ import contactsSlice from './contactsSlice'
 import messagingSlice from './messagingSlice'
 import tutorialSlice from './tutorialSlice'
 import notificationSlice from './notificationSlice'
+import storiesSlice from './storiesSlice'
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     messaging: messagingSlice,
     tutorial: tutorialSlice,
     notification: notificationSlice,
+    stories: storiesSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

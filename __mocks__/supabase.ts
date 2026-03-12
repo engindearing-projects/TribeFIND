@@ -49,11 +49,22 @@ export const supabase = {
   from: jest.fn(() => ({
     select: jest.fn().mockReturnThis(),
     eq: jest.fn().mockReturnThis(),
+    gt: jest.fn().mockReturnThis(),
+    gte: jest.fn().mockReturnThis(),
+    order: jest.fn(() => Promise.resolve({ data: [], error: null })),
     single: jest.fn(() => Promise.resolve({ data: mockUser, error: null })),
-    insert: jest.fn(() => Promise.resolve({ data: [mockUser], error: null })),
-    update: jest.fn(() => Promise.resolve({ data: [mockUser], error: null })),
+    insert: jest.fn().mockReturnThis(),
+    update: jest.fn().mockReturnThis(),
+    delete: jest.fn().mockReturnThis(),
+    upsert: jest.fn(() => Promise.resolve({ data: null, error: null })),
     maybeSingle: jest.fn(() => Promise.resolve({ data: null, error: null })),
   })),
+  storage: {
+    from: jest.fn(() => ({
+      upload: jest.fn(() => Promise.resolve({ data: { path: 'mock-path' }, error: null })),
+      getPublicUrl: jest.fn(() => ({ data: { publicUrl: 'https://mock-url.com/media.jpg' } })),
+    })),
+  },
   // Add other top-level supabase methods as needed
 };
 
