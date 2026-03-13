@@ -52,7 +52,7 @@ describe('VideoGallery', () => {
   });
 
   it('shows loading state initially', async () => {
-    let resolveVideos: (value: any) => void;
+    let resolveVideos!: (value: any) => void;
     const deferredPromise = new Promise(resolve => {
       resolveVideos = resolve;
     });

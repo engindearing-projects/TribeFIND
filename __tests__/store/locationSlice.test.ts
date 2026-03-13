@@ -18,11 +18,31 @@ const mockLocation = {
 };
 
 describe('locationSlice', () => {
-  const initialState = {
+  const initialState: {
+    currentLocation: {
+      latitude: number;
+      longitude: number;
+      timestamp: string;
+      accuracy?: number;
+      heading?: number;
+      speed?: number;
+    } | null;
+    isTracking: boolean;
+    hasPermission: boolean;
+    trackingAccuracy: 'high' | 'medium' | 'low';
+    updateInterval: number;
+    locationHistory: Array<{
+      latitude: number;
+      longitude: number;
+      timestamp: string;
+      accuracy?: number;
+    }>;
+    backgroundTracking: boolean;
+  } = {
     currentLocation: null,
     isTracking: false,
     hasPermission: false,
-    trackingAccuracy: 'medium' as const,
+    trackingAccuracy: 'medium',
     updateInterval: 30000,
     locationHistory: [],
     backgroundTracking: false,
