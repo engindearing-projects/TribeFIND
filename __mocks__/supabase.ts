@@ -44,7 +44,9 @@ export const supabase = {
     signOut: jest.fn(() => Promise.resolve({ error: null })),
     resetPasswordForEmail: jest.fn(() => Promise.resolve({ data: null, error: null })),
     updateUser: jest.fn(() => Promise.resolve({ data: { user: mockUser }, error: null })),
-    // Add other auth methods as needed
+    signInWithIdToken: jest.fn(() => Promise.resolve({ data: { user: mockUser, session: mockSession }, error: null })),
+    getUser: jest.fn(() => Promise.resolve({ data: { user: mockUser }, error: null })),
+    linkIdentity: jest.fn(() => Promise.resolve({ data: { url: 'https://mock-link-url' }, error: null })),
   },
   from: jest.fn(() => ({
     select: jest.fn().mockReturnThis(),

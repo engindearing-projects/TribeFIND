@@ -99,7 +99,7 @@ describe('Apple Auth Integration', () => {
     })
   })
 
-  it('completes full Apple sign-in flow for a new user', async () => {
+  it('completes full Apple sign-in flow using signInWithIdToken', async () => {
     ;(mockAppleSignIn.isAvailable as jest.Mock).mockResolvedValue(true)
     ;(mockAppleSignIn.signIn as jest.Mock).mockResolvedValue({
       user: {
@@ -111,32 +111,10 @@ describe('Apple Auth Integration', () => {
       authorizationCode: 'apple-auth-code-xyz',
     })
 
-    // No existing user in DB
-    const fromChain = {
-      select: jest.fn().mockReturnThis(),
-      insert: jest.fn().mockReturnThis(),
-      update: jest.fn().mockReturnThis(),
-      eq: jest.fn().mockReturnThis(),
-      single: jest.fn().mockResolvedValue({ data: null, error: null }),
-      maybeSingle: jest.fn().mockResolvedValue({ data: null, error: null }),
-      limit: jest.fn().mockResolvedValue({ data: [], error: null }),
-    }
-    ;(mockSupabase.from as jest.Mock).mockReturnValue(fromChain)
-
-    ;(mockSupabase.auth.signUp as jest.Mock).mockResolvedValue({
+    ;(mockSupabase.auth.signInWithIdToken as jest.Mock).mockResolvedValue({
       data: {
         user: { id: 'apple-auth-1', email: 'apple@example.com' },
         session: { access_token: 'tok', user: { id: 'apple-auth-1' } },
-      },
-      error: null,
-    })
-
-    ;(mockSupabase.auth.getSession as jest.Mock).mockResolvedValue({
-      data: {
-        session: {
-          access_token: 'tok',
-          user: { id: 'apple-auth-1', email: 'apple@example.com' },
-        },
       },
       error: null,
     })
@@ -156,6 +134,10 @@ describe('Apple Auth Integration', () => {
 
     expect(mockAppleSignIn.isAvailable).toHaveBeenCalled()
     expect(mockAppleSignIn.signIn).toHaveBeenCalled()
+    expect(mockSupabase.auth.signInWithIdToken).toHaveBeenCalledWith({
+      provider: 'apple',
+      token: 'apple-identity-token-abc',
+    })
   })
 
   it('returns error when Apple Sign-In is not available', async () => {
@@ -180,7 +162,7 @@ describe('Apple Auth Integration', () => {
   it('returns error when Apple sign-in fails', async () => {
     ;(mockAppleSignIn.isAvailable as jest.Mock).mockResolvedValue(true)
     ;(mockAppleSignIn.signIn as jest.Mock).mockResolvedValue({
-      error: 'The operation was cancelled by the user.',
+      error: 'Apple Sign In was cancelled.',
     })
 
     let result: any = null
@@ -197,11 +179,11 @@ describe('Apple Auth Integration', () => {
     })
   })
 
-  it('returns error when Apple returns no user data', async () => {
+  it('returns error when no identity token received', async () => {
     ;(mockAppleSignIn.isAvailable as jest.Mock).mockResolvedValue(true)
     ;(mockAppleSignIn.signIn as jest.Mock).mockResolvedValue({
-      user: null,
-      identityToken: 'token-abc',
+      user: { id: 'apple-id', email: 'test@example.com', name: 'Test' },
+      identityToken: null,
     })
 
     let result: any = null
@@ -214,34 +196,50 @@ describe('Apple Auth Integration', () => {
 
     await waitFor(() => {
       expect(result).toBeDefined()
-      expect(result.error).toContain('No user information')
+      expect(result.error).toContain('identity token')
     })
   })
 
-  it('handles hidden email by using Apple ID as email', async () => {
+  it('returns error when Supabase signInWithIdToken fails', async () => {
+    ;(mockAppleSignIn.isAvailable as jest.Mock).mockResolvedValue(true)
+    ;(mockAppleSignIn.signIn as jest.Mock).mockResolvedValue({
+      user: { id: 'apple-id', email: 'test@example.com', name: 'Test' },
+      identityToken: 'valid-token',
+      authorizationCode: 'auth-code',
+    })
+
+    ;(mockSupabase.auth.signInWithIdToken as jest.Mock).mockResolvedValue({
+      data: { user: null, session: null },
+      error: { message: 'Invalid token' },
+    })
+
+    let result: any = null
+    const { findByTestId } = renderWithAuth((r) => { result = r })
+
+    await act(async () => {
+      const btn = await findByTestId('appleSignIn')
+      fireEvent.press(btn)
+    })
+
+    await waitFor(() => {
+      expect(result).toBeDefined()
+      expect(result.error).toContain('Invalid token')
+    })
+  })
+
+  it('handles hidden email (uses signInWithIdToken regardless)', async () => {
     ;(mockAppleSignIn.isAvailable as jest.Mock).mockResolvedValue(true)
     ;(mockAppleSignIn.signIn as jest.Mock).mockResolvedValue({
       user: {
         id: 'apple-hidden-id-456',
-        email: null, // Apple hides the email
+        email: null,
         name: 'Private User',
       },
       identityToken: 'apple-token-def',
+      authorizationCode: 'auth-code',
     })
 
-    // New user flow
-    const fromChain = {
-      select: jest.fn().mockReturnThis(),
-      insert: jest.fn().mockReturnThis(),
-      update: jest.fn().mockReturnThis(),
-      eq: jest.fn().mockReturnThis(),
-      single: jest.fn().mockResolvedValue({ data: null, error: null }),
-      maybeSingle: jest.fn().mockResolvedValue({ data: null, error: null }),
-      limit: jest.fn().mockResolvedValue({ data: [], error: null }),
-    }
-    ;(mockSupabase.from as jest.Mock).mockReturnValue(fromChain)
-
-    ;(mockSupabase.auth.signUp as jest.Mock).mockResolvedValue({
+    ;(mockSupabase.auth.signInWithIdToken as jest.Mock).mockResolvedValue({
       data: {
         user: { id: 'apple-auth-2', email: 'apple-hidden-id-456@privaterelay.appleid.com' },
         session: { access_token: 'tok', user: { id: 'apple-auth-2' } },
@@ -249,16 +247,6 @@ describe('Apple Auth Integration', () => {
       error: null,
     })
 
-    ;(mockSupabase.auth.getSession as jest.Mock).mockResolvedValue({
-      data: {
-        session: {
-          access_token: 'tok',
-          user: { id: 'apple-auth-2', email: 'apple-hidden-id-456@privaterelay.appleid.com' },
-        },
-      },
-      error: null,
-    })
-
     let result: any = null
     const { findByTestId } = renderWithAuth((r) => { result = r })
 
@@ -272,63 +260,10 @@ describe('Apple Auth Integration', () => {
       expect(result.error).toBeUndefined()
     })
 
-    // Verify signUp was called with the privaterelay email
-    expect(mockSupabase.auth.signUp).toHaveBeenCalledWith(
-      expect.objectContaining({
-        email: 'apple-hidden-id-456@privaterelay.appleid.com',
-        password: 'apple-oauth-user',
-      })
-    )
-  })
-
-  it('signs in existing user via Apple', async () => {
-    ;(mockAppleSignIn.isAvailable as jest.Mock).mockResolvedValue(true)
-    ;(mockAppleSignIn.signIn as jest.Mock).mockResolvedValue({
-      user: {
-        id: 'apple-existing-id',
-        email: 'existing@example.com',
-        name: 'Existing Apple User',
-      },
-      identityToken: 'apple-token-existing',
-    })
-
-    // Existing user found
-    const existingUser = {
-      id: 'existing-1',
-      email: 'existing@example.com',
-      username: 'existinguser',
-      display_name: 'Existing User',
-    }
-    const fromChain = {
-      select: jest.fn().mockReturnThis(),
-      insert: jest.fn().mockReturnThis(),
-      update: jest.fn().mockReturnThis(),
-      eq: jest.fn().mockReturnThis(),
-      single: jest.fn().mockResolvedValue({ data: null, error: null }),
-      maybeSingle: jest.fn().mockResolvedValue({ data: existingUser, error: null }),
-      limit: jest.fn().mockResolvedValue({ data: [], error: null }),
-    }
-    ;(mockSupabase.from as jest.Mock).mockReturnValue(fromChain)
-
-    ;(mockSupabase.auth.signInWithPassword as jest.Mock).mockResolvedValue({
-      data: {
-        user: { id: 'existing-1', email: 'existing@example.com' },
-        session: { access_token: 'tok' },
-      },
-      error: null,
-    })
-
-    let result: any = null
-    const { findByTestId } = renderWithAuth((r) => { result = r })
-
-    await act(async () => {
-      const btn = await findByTestId('appleSignIn')
-      fireEvent.press(btn)
-    })
-
-    await waitFor(() => {
-      expect(result).toBeDefined()
-      expect(result.error).toBeUndefined()
+    // signInWithIdToken handles hidden emails server-side
+    expect(mockSupabase.auth.signInWithIdToken).toHaveBeenCalledWith({
+      provider: 'apple',
+      token: 'apple-token-def',
     })
   })
 

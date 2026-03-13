@@ -27,48 +27,43 @@ export default {
         NSLocationAlwaysAndWhenInUseUsageDescription: "This app uses location to show nearby tribe members with shared interests.",
         ITSAppUsesNonExemptEncryption: false,
         NSAppTransportSecurity: {
-          NSAllowsArbitraryLoads: true,
-          NSAllowsArbitraryLoadsInWebContent: true,
+          NSAllowsArbitraryLoads: false,
           NSAllowsLocalNetworking: true,
           NSExceptionDomains: {
             "supabase.co": {
-              NSExceptionAllowsInsecureHTTPLoads: true,
-              NSExceptionMinimumTLSVersion: "TLSv1.0",
-              NSExceptionRequiresForwardSecrecy: false,
-              NSIncludesSubdomains: true
+              NSIncludesSubdomains: true,
+              NSExceptionMinimumTLSVersion: "TLSv1.2",
+              NSExceptionRequiresForwardSecrecy: true
             },
             "supabase.com": {
-              NSExceptionAllowsInsecureHTTPLoads: true,
-              NSExceptionMinimumTLSVersion: "TLSv1.0",
-              NSExceptionRequiresForwardSecrecy: false,
-              NSIncludesSubdomains: true
+              NSIncludesSubdomains: true,
+              NSExceptionMinimumTLSVersion: "TLSv1.2",
+              NSExceptionRequiresForwardSecrecy: true
             },
             "googleapis.com": {
-              NSExceptionAllowsInsecureHTTPLoads: true,
-              NSExceptionMinimumTLSVersion: "TLSv1.0",
-              NSExceptionRequiresForwardSecrecy: false,
-              NSIncludesSubdomains: true
+              NSIncludesSubdomains: true,
+              NSExceptionMinimumTLSVersion: "TLSv1.2",
+              NSExceptionRequiresForwardSecrecy: true
             },
             "google.com": {
-              NSExceptionAllowsInsecureHTTPLoads: true,
-              NSExceptionMinimumTLSVersion: "TLSv1.0",
-              NSExceptionRequiresForwardSecrecy: false,
-              NSIncludesSubdomains: true
+              NSIncludesSubdomains: true,
+              NSExceptionMinimumTLSVersion: "TLSv1.2",
+              NSExceptionRequiresForwardSecrecy: true
             },
             "twitter.com": {
-              NSExceptionAllowsInsecureHTTPLoads: true,
-              NSExceptionMinimumTLSVersion: "TLSv1.0",
-              NSExceptionRequiresForwardSecrecy: false,
-              NSIncludesSubdomains: true
+              NSIncludesSubdomains: true,
+              NSExceptionMinimumTLSVersion: "TLSv1.2",
+              NSExceptionRequiresForwardSecrecy: true
             },
-            localhost: {
-              NSExceptionAllowsInsecureHTTPLoads: true,
-              NSExceptionMinimumTLSVersion: "TLSv1.0",
-              NSExceptionRequiresForwardSecrecy: false
+            "apple.com": {
+              NSIncludesSubdomains: true,
+              NSExceptionMinimumTLSVersion: "TLSv1.2",
+              NSExceptionRequiresForwardSecrecy: true
             }
           }
         }
       },
+      usesAppleSignIn: true,
       bundleIdentifier: "com.jfuginay.tribefind",
       config: {
         googleMapsApiKey: process.env.GOOGLE_PLACES_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY"
@@ -138,7 +133,7 @@ export default {
           iosUrlScheme: "com.googleusercontent.apps.928204958033-cupnqdn1nglhhfmj5pe5vl0oql4heg9s"
         }
       ],
-      // "expo-apple-authentication", // Temporarily disabled - provisioning profile needs Sign in with Apple capability
+      "expo-apple-authentication",
       "expo-web-browser",
       [
         "expo-notifications",

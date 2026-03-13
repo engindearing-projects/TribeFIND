@@ -99,8 +99,11 @@ jest.mock('./lib/supabase', () => ({
       signUp: jest.fn().mockResolvedValue({ data: { user: null, session: null }, error: null }),
       signInWithPassword: jest.fn().mockResolvedValue({ data: { user: null, session: null }, error: null }),
       signOut: jest.fn().mockResolvedValue({ error: null }),
+      signInWithIdToken: jest.fn().mockResolvedValue({ data: { user: null, session: null }, error: null }),
       onAuthStateChange: jest.fn().mockReturnValue({ data: { subscription: { unsubscribe: jest.fn() } } }),
       resetPasswordForEmail: jest.fn().mockResolvedValue({ error: null }),
+      getUser: jest.fn().mockResolvedValue({ data: { user: null }, error: null }),
+      linkIdentity: jest.fn().mockResolvedValue({ data: { url: 'https://mock-link-url' }, error: null }),
     },
     from: jest.fn().mockReturnValue({
       select: jest.fn().mockReturnThis(),

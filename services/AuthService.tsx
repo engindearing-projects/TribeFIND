@@ -921,67 +921,45 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signInWithApple = async () => {
     try {
-      console.log('🍎 Starting Apple Sign In process...')
+      if (__DEV__) console.log('🍎 Starting Apple Sign In...')
       dispatch(setLoading(true))
 
-      // Check if Apple Sign In is available
       const available = await AppleSignInService.isAvailable()
       if (!available) {
-        console.log('❌ Apple Sign-In not available')
-        return { error: 'Apple Sign In is not available on this device. Please use iOS 13+ or macOS 10.15+.' }
+        return { error: 'Apple Sign In is not available on this device. Requires iOS 13+.' }
       }
 
-      console.log('✅ Apple Sign-In available, attempting sign in...')
       const result = await AppleSignInService.signIn()
 
       if (result.error) {
-        console.log('❌ Apple Sign-In failed:', result.error)
         return { error: result.error }
       }
 
-      if (!result.user) {
-        console.log('❌ No user data from Apple Sign-In')
-        return { error: 'No user information received from Apple' }
+      if (!result.identityToken) {
+        return { error: 'No identity token received from Apple. Please try again.' }
       }
 
-      console.log('✅ Apple Sign-In successful, processing user...', {
-        id: result.user.id,
-        email: result.user.email,
-        name: result.user.name,
-        hasIdentityToken: !!result.identityToken
+      // Use Supabase signInWithIdToken for proper Apple auth
+      // This creates/links the user via Supabase's built-in Apple provider
+      const { data, error } = await supabase.auth.signInWithIdToken({
+        provider: 'apple',
+        token: result.identityToken,
       })
 
-      // Handle case where Apple hides the email (subsequent sign-ins)
-      let userEmail = result.user.email
-      if (!userEmail) {
-        // For users who chose to hide their email, we need to use their Apple ID
-        // We'll create a placeholder email based on their Apple ID
-        userEmail = `${result.user.id}@privaterelay.appleid.com`
-        console.log('⚠️ Apple email hidden, using Apple ID as email:', userEmail)
+      if (error) {
+        if (__DEV__) console.error('Apple signInWithIdToken error:', error.message)
+        return { error: error.message }
       }
 
-      // Create or sign in user with Apple data
-      const authResult = await createOrSignInUser({
-        email: userEmail,
-        name: result.user.name || 'Apple User',
-        avatar: undefined, // Apple doesn't provide profile photos
-        provider: 'apple'
-      })
-
-      if (authResult.error) {
-        console.log('❌ User creation/sign-in failed:', authResult.error)
-        return { error: authResult.error }
-      }
-
-      console.log('✅ Apple Sign-In and user processing complete')
+      if (__DEV__) console.log('✅ Apple Sign-In complete, session established')
       AnalyticsService.trackSignIn('apple')
 
-      // Navigate to Map screen after successful Apple OAuth
+      // onAuthStateChange listener handles profile creation and navigation
       setTimeout(() => navigateToMapAfterOAuth(), 500)
 
       return {}
-    } catch (error) {
-      console.error('❌ Apple Sign In error:', error)
+    } catch (error: any) {
+      console.error('Apple Sign In error:', error?.message)
       return { error: 'An unexpected error occurred with Apple Sign In' }
     } finally {
       dispatch(setLoading(false))
