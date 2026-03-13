@@ -1,0 +1,40 @@
+# TribeFIND Fastlane Configuration
+# Docs: https://docs.fastlane.tools
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Upload metadata to App Store Connect"
+  lane :upload_metadata do
+    deliver(
+      skip_binary_upload: true,
+      skip_screenshots: false,
+      force: true,
+      metadata_path: "./fastlane/metadata",
+      screenshots_path: "./fastlane/screenshots"
+    )
+  end
+
+  desc "Upload screenshots only"
+  lane :upload_screenshots do
+    deliver(
+      skip_binary_upload: true,
+      skip_metadata: true,
+      force: true,
+      screenshots_path: "./fastlane/screenshots"
+    )
+  end
+end
+
+platform :android do
+  desc "Upload metadata to Google Play"
+  lane :upload_metadata do
+    supply(
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_images: false,
+      skip_upload_screenshots: false,
+      metadata_path: "./fastlane/metadata/android"
+    )
+  end
+end

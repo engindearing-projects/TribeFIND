@@ -88,3 +88,6 @@ IMG_*.png
 
 # Test output
 test_output.txt
+
+# Google Play service account key
+google-play-service-account.json

@@ -1,0 +1,8 @@
+# App Store Connect
+app_identifier("com.jfuginay.tribefind")
+apple_id("j.wylie.81@gmail.com")
+# team_id("REPLACE_WITH_TEAM_ID")  # Uncomment and set your Apple Developer Team ID
+
+# Google Play
+json_key_file("./google-play-service-account.json")
+package_name("com.jfuginay.tribefind")

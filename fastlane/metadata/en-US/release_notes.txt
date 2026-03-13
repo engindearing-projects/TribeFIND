@@ -1,0 +1,8 @@
+What's New in v1.4.2:
+
+• Stories — Share moments with your tribe! Photos and videos auto-expire after 24 hours
+• Push Notifications — Never miss a message or friend request
+• Improved Privacy — New granular privacy controls for location and activity sharing
+• Error Tracking — Better crash reporting for a smoother experience
+• Performance — Faster map loading and reduced battery usage
+• Bug Fixes — Resolved activity filter issues and improved auth reliability

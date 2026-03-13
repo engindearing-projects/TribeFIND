@@ -1,0 +1,41 @@
+TESTING INSTRUCTIONS:
+
+1. LOCATION SERVICES REQUIRED:
+   TribeFind requires location permissions for core functionality. Please enable location services when prompted during testing.
+
+2. DEMO ACCOUNT:
+   - Use demo@tribefind.app / DemoUser123! to sign in
+   - Account is pre-configured with interests and location data
+   - Located in San Francisco area for testing
+
+3. TESTING NEARBY USERS:
+   - App will show test accounts (test1@tribefind.app, test2@tribefind.app) as nearby users
+   - These accounts have overlapping interests for demonstration
+   - Test messaging by tapping on these users
+
+4. CORE FEATURES TO TEST:
+   - Location-based user discovery (main feature)
+   - Interest matching and filtering
+   - Real-time messaging system
+   - Profile creation and management
+   - Google/Twitter authentication
+   - Camera integration for photos
+   - Stories feature (share and view)
+
+5. PRIVACY & PERMISSIONS:
+   - App requests location permission (required for core functionality)
+   - Camera permission (for profile photos and sharing)
+   - Notification permission (for message alerts)
+   - All permissions are clearly explained to users
+
+6. TECHNICAL NOTES:
+   - Built with React Native/Expo
+   - Uses Supabase for backend services
+   - Google Maps integration for location features
+   - Real-time messaging with WebSocket connections
+
+The app is designed to connect people based on shared interests and proximity, focused on friendship and activities rather than romantic connections.
+
+If you encounter any issues during review, please contact:
+Email: support@tribefind.app
+Response time: Within 24 hours
