@@ -70,7 +70,8 @@ const MapScreen: React.FC = () => {
   const [mapReady, setMapReady] = useState(false);
   const [locationTrackingActive, setLocationTrackingActive] = useState(false);
   const locationTrackingRef = useRef<number | null>(null);
-  
+  const alertTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   // Activity filtering state
   const [selectedActivityFilters, setSelectedActivityFilters] = useState<string[]>([]);
   const [allTribeMembers, setAllTribeMembers] = useState<TribeMember[]>([]); // Store all unfiltered results
@@ -373,6 +374,9 @@ const MapScreen: React.FC = () => {
    useEffect(() => {
      return () => {
        stopLocationTracking();
+       if (alertTimeoutRef.current) {
+         clearTimeout(alertTimeoutRef.current);
+       }
      };
    }, [stopLocationTracking]);
 
@@ -414,7 +418,7 @@ const MapScreen: React.FC = () => {
         setTribeMembers([]);
         
         // Show helpful message for users with no activities
-        setTimeout(() => {
+        alertTimeoutRef.current = setTimeout(() => {
           Alert.alert(
             'Select Your Interests',
             'To find nearby tribe members, please add some activities to your profile first!',
