@@ -44,8 +44,8 @@ function createTestStore() {
     },
     preloadedState: {
       auth: { user: null, session: null, loading: true, isAuthenticated: false },
-      location: { currentLocation: null, isTracking: false, hasPermission: false, trackingAccuracy: 'balanced', updateInterval: 30000, locationHistory: [], backgroundTracking: false },
-      privacy: { shareLocation: true, privacyLevel: 'everyone', ghostMode: { enabled: false, duration: null }, allowedContacts: [], blockedContacts: [], showPreciseLocation: true, shareLocationHistory: true, allowStrangerMessages: true, showOnlineStatus: true, notifications: { pushEnabled: true, soundEnabled: true, vibrationEnabled: true, friendRequests: true, messages: true, nearbyAlerts: true } },
+      location: { currentLocation: null, isTracking: false, hasPermission: false, trackingAccuracy: 'medium' as const, updateInterval: 30000, locationHistory: [], backgroundTracking: false },
+      privacy: { shareLocation: true, privacyLevel: 'everyone' as const, ghostMode: { enabled: false }, allowedContacts: [], blockedContacts: [], showPreciseLocation: true, shareLocationHistory: true, allowStrangerMessages: true, showOnlineStatus: true, notifications: { pushEnabled: true, locationUpdates: true, friendRequests: true, messages: true } },
       contacts: { contacts: [], searchQuery: '', pendingRequests: [], blockedUsers: [], nearbyContacts: [], loadingContacts: false, contactUpdates: 0 },
       messaging: { chatRooms: [], messages: {}, currentChatRoom: null, loadingMessages: false, loadingChatRooms: false, totalUnreadCount: 0, typingUsers: {} },
       tutorial: { hasCompletedOnboarding: false, lastCompletedStep: -1, tutorialVisible: false, firstTimeUser: true },

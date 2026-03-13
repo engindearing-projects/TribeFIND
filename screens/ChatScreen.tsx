@@ -60,9 +60,9 @@ const ChatScreen: React.FC = () => {
   const [otherUserTyping, setOtherUserTyping] = useState(false);
 
   const flatListRef = useRef<FlatList>(null);
-  const typingTimeoutRef = useRef<NodeJS.Timeout>();
-  const messagesSubscriptionRef = useRef<any>();
-  const typingSubscriptionRef = useRef<any>();
+  const typingTimeoutRef = useRef<NodeJS.Timeout>(undefined);
+  const messagesSubscriptionRef = useRef<any>(null);
+  const typingSubscriptionRef = useRef<any>(null);
 
   const { chatRoomId, otherUser } = route.params || {};
 

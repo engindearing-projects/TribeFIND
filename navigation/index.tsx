@@ -217,7 +217,7 @@ export default function Navigation() {
               component={StoryViewerScreen}
               options={{
                 headerShown: false,
-                presentation: 'fullScreenModal',
+                presentation: 'modal',
                 gestureEnabled: true,
               }}
             />

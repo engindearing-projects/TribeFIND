@@ -58,6 +58,13 @@ export interface User {
   joined_at: string
   last_active: string
   is_online: boolean
+  social_accounts?: {
+    twitter?: {
+      id?: string
+      username?: string
+      verified?: boolean
+    }
+  }
   settings: {
     share_location: boolean
     allow_friend_requests: boolean

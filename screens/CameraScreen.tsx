@@ -21,7 +21,7 @@ import ImageFilters from '../components/ImageFilters'
 
 const { width, height } = Dimensions.get('window')
 
-type CameraMode = 'photo'
+type CameraMode = 'photo' | 'video'
 
 export default function CameraScreen() {
   const [mode, setMode] = useState<CameraMode>('photo')

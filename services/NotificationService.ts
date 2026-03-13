@@ -11,13 +11,15 @@ Notifications.setNotificationHandler({
     const prefs = state.privacy.notifications
 
     if (!prefs.pushEnabled) {
-      return { shouldShowAlert: false, shouldPlaySound: false, shouldSetBadge: false }
+      return { shouldShowAlert: false, shouldPlaySound: false, shouldSetBadge: false, shouldShowBanner: false, shouldShowList: false }
     }
 
     return {
       shouldShowAlert: true,
       shouldPlaySound: true,
       shouldSetBadge: true,
+      shouldShowBanner: true,
+      shouldShowList: true,
     }
   },
 })
