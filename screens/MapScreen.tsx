@@ -630,6 +630,7 @@ const MapScreen: React.FC = () => {
       transparent={true}
       animationType="slide"
       onRequestClose={() => setModalVisible(false)}
+      testID="member-modal"
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
@@ -674,9 +675,60 @@ const MapScreen: React.FC = () => {
               <View style={styles.modalActions}>
                 <TouchableOpacity
                   style={styles.connectButton}
-                  onPress={() => {
-                    // TODO: Implement connect/message functionality
-                    Alert.alert('Connect', `Send a message to ${selectedMember.display_name}?`);
+                  testID="connect-button"
+                  onPress={async () => {
+                    if (!user || !selectedMember) return;
+
+                    try {
+                      const { data: existingChat } = await supabase
+                        .from('chat_rooms')
+                        .select('id')
+                        .eq('type', 'direct')
+                        .contains('participants', [user.id, selectedMember.id])
+                        .single();
+
+                      let chatRoomId: string;
+
+                      if (existingChat) {
+                        chatRoomId = existingChat.id;
+                      } else {
+                        const { data: newChat, error } = await supabase
+                          .from('chat_rooms')
+                          .insert({
+                            name: `${user.username}-${selectedMember.username}`,
+                            type: 'direct',
+                            participants: [user.id, selectedMember.id],
+                            created_by: user.id,
+                          })
+                          .select('id')
+                          .single();
+
+                        if (error) {
+                          Alert.alert('Error', 'Failed to start chat');
+                          return;
+                        }
+
+                        chatRoomId = newChat!.id;
+                      }
+
+                      const otherUser = {
+                        id: selectedMember.id,
+                        username: selectedMember.username,
+                        display_name: selectedMember.display_name,
+                        avatar: selectedMember.avatar,
+                        is_online: selectedMember.is_online,
+                        last_active: selectedMember.last_active,
+                      };
+
+                      setModalVisible(false);
+                      navigation.navigate('ChatScreen', {
+                        chatRoomId,
+                        otherUser,
+                      });
+                    } catch (error) {
+                      if (__DEV__) console.error('Error connecting:', error);
+                      Alert.alert('Error', 'Failed to start chat');
+                    }
                   }}
                 >
                   <Text style={styles.connectButtonText}>Connect</Text>
